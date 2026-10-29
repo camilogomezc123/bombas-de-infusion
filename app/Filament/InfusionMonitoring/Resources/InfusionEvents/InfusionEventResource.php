@@ -7,6 +7,7 @@ use App\Filament\InfusionMonitoring\Resources\InfusionEvents\Pages\ListInfusionE
 use App\Filament\InfusionMonitoring\Resources\InfusionEvents\Pages\ViewInfusionEvent;
 use App\Models\DrugInfusionProfile;
 use App\Models\InfusionEvent;
+use App\Models\PumpDevice;
 use App\Support\CsvExporter;
 use App\Support\ProgramAccess;
 use BackedEnum;
@@ -16,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -98,6 +100,32 @@ class InfusionEventResource extends Resource
             TextColumn::make('next_action')->label('Próxima acción')->placeholder('—'),
             TextColumn::make('care_area')->label('Área de atención')->placeholder('—'),
             TextColumn::make('icuStay.patient.full_name')->label('Paciente')->placeholder('Sin resolver'),
+            TextColumn::make('channel_number')->label('Canal')->badge()->color('gray'),
+            TextColumn::make('device_status')->label('Estado dispositivo')->badge()
+                ->formatStateUsing(fn (?string $state): string => PumpDevice::STATUSES[$state] ?? '—')
+                ->color(fn (?string $state): string => PumpDevice::statusColor($state))
+                ->placeholder('—'),
+            TextColumn::make('battery_pct')->label('Batería')->placeholder('—')
+                ->formatStateUsing(fn (?int $state): string => $state === null ? '—' : "{$state}%"),
+            IconColumn::make('used_drug_library')->label('Librería')->boolean()
+                ->trueIcon('heroicon-o-check-badge')->falseIcon('heroicon-o-bolt')
+                ->trueColor('success')->falseColor('warning'),
+            TextColumn::make('overridden_by_operator')->label('Operador')->placeholder('—'),
+            TextColumn::make('co_signed_by')->label('Co-firma')->badge()
+                ->getStateUsing(function (InfusionEvent $record): string {
+                    if (! $record->requiresCoSign()) {
+                        return 'N/A';
+                    }
+
+                    return $record->co_signed_at ? 'Firmada: '.$record->coSignedBy?->name : 'Pendiente';
+                })
+                ->color(function (InfusionEvent $record): string {
+                    if (! $record->requiresCoSign()) {
+                        return 'gray';
+                    }
+
+                    return $record->co_signed_at ? 'success' : 'warning';
+                }),
             TextColumn::make('attempted_value')->label('Intento de valor')
                 ->formatStateUsing(fn (InfusionEvent $record): string => $record->attempted_value !== null ? $record->attempted_value.' '.$record->attempted_unit : '—'),
             TextColumn::make('soft_limit_low')->label('Límites excedidos')
@@ -112,6 +140,12 @@ class InfusionEventResource extends Resource
 
                     return '—';
                 }),
+        ])->recordActions([
+            Action::make('coSign')->label('Co-firmar')->icon('heroicon-m-pencil-square')->color('success')
+                ->requiresConfirmation()
+                ->modalDescription('Confirmas que verificaste esta programación de alto riesgo (segunda persona, independiente de quien la programó).')
+                ->visible(fn (InfusionEvent $record): bool => $record->requiresCoSign() && ! $record->co_signed_at)
+                ->action(fn (InfusionEvent $record) => $record->update(['co_signed_by' => auth()->id(), 'co_signed_at' => now()])),
         ])->filters([
             SelectFilter::make('drug_infusion_profile_id')->label('Medicamento')
                 ->options(fn () => DrugInfusionProfile::query()->pluck('name', 'id')),
@@ -120,6 +154,7 @@ class InfusionEventResource extends Resource
                 'DERS - Duro' => 'DERS - Duro',
                 'PUMP - Duro' => 'PUMP - Duro',
             ]),
+            SelectFilter::make('device_status')->label('Estado del dispositivo')->options(PumpDevice::STATUSES),
         ])->headerActions([
             Action::make('exportCsv')->label('Exportar CSV')->icon('heroicon-m-arrow-down-tray')->color('gray')
                 ->action(fn ($livewire) => CsvExporter::stream(

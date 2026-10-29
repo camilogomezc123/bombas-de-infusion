@@ -35,6 +35,39 @@ class InfusionIndicatorService
             'open_pis_alerts' => InfusionClinicalAlert::query()->where('type', 'pis_risk')->where('status', '!=', 'resolved')->count(),
             'open_critical_alerts' => InfusionClinicalAlert::query()->where('severity', 'critical')->where('status', 'open')->count(),
             'total_events' => $totalEvents,
+            'library_compliance_pct' => $totalEvents
+                ? round(InfusionEvent::query()->where('used_drug_library', true)->count() / $totalEvents * 100, 1)
+                : null,
+            'open_antibiotic_interruptions' => InfusionClinicalAlert::query()
+                ->where('type', 'antibiotic_interruption')->where('status', '!=', 'resolved')->count(),
+            'open_pain_assessment_gaps' => InfusionClinicalAlert::query()
+                ->where('type', 'pain_assessment_overdue')->where('status', '!=', 'resolved')->count(),
+            'open_therapeutic_duplications' => InfusionClinicalAlert::query()
+                ->where('type', 'therapeutic_duplication')->where('status', '!=', 'resolved')->count(),
+            'co_sign_compliance_pct' => $this->coSignCompliance(),
         ];
+    }
+
+    /**
+     * % de eventos de fármacos de alto riesgo (vasoactivo/opioide/sedación) con doble
+     * verificación registrada — la bomba reporta quién anuló un límite, pero no quién
+     * verificó la programación normal; eso lo registra enfermería manualmente aquí.
+     */
+    private function coSignCompliance(): ?float
+    {
+        $highRisk = InfusionEvent::query()
+            ->whereHas('drugInfusionProfile', fn ($q) => $q->whereIn('category', InfusionEvent::HIGH_RISK_CATEGORIES))
+            ->count();
+
+        if (! $highRisk) {
+            return null;
+        }
+
+        $coSigned = InfusionEvent::query()
+            ->whereHas('drugInfusionProfile', fn ($q) => $q->whereIn('category', InfusionEvent::HIGH_RISK_CATEGORIES))
+            ->whereNotNull('co_signed_at')
+            ->count();
+
+        return round($coSigned / $highRisk * 100, 1);
     }
 }

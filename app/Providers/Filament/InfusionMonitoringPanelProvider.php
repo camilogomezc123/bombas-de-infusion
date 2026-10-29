@@ -2,9 +2,14 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\InfusionMonitoring\Pages\AlarmInsights;
 use App\Filament\InfusionMonitoring\Pages\InfusionIndicators;
+use App\Filament\InfusionMonitoring\Pages\MonitoringWall;
+use App\Filament\InfusionMonitoring\Pages\OverrideAudit;
 use App\Filament\InfusionMonitoring\Pages\PumpCensus;
+use App\Filament\InfusionMonitoring\Pages\ShiftHandoffReport;
 use App\Filament\InfusionMonitoring\Pages\StayInfusionTimeline;
+use App\Filament\InfusionMonitoring\Pages\UnitTrends;
 use App\Filament\InfusionMonitoring\Resources\DrugInfusionProfiles\DrugInfusionProfileResource;
 use App\Filament\InfusionMonitoring\Resources\InfusionClinicalAlerts\InfusionClinicalAlertResource;
 use App\Filament\InfusionMonitoring\Resources\InfusionEvents\InfusionEventResource;
@@ -40,17 +45,17 @@ class InfusionMonitoringPanelProvider extends PanelProvider
             ->brandName('ÁGORA · Monitoreo de Bombas')->brandLogo(asset('img/LOGO1.png'))->brandLogoHeight('2.75rem')
             ->favicon(asset('img/favicon.png'))->font('Montserrat')->topNavigation()
             ->navigation(fn (NavigationBuilder $builder) => $builder
-                ->group(NavigationGroup::make()->items([...PumpCensus::getNavigationItems(), ...StayInfusionTimeline::getNavigationItems()]))
-                ->group(NavigationGroup::make('Clínico')->items([...InfusionEventResource::getNavigationItems(), ...InfusionClinicalAlertResource::getNavigationItems()]))
+                ->group(NavigationGroup::make()->items([...MonitoringWall::getNavigationItems(), ...PumpCensus::getNavigationItems(), ...StayInfusionTimeline::getNavigationItems()]))
+                ->group(NavigationGroup::make('Clínico')->items([...InfusionEventResource::getNavigationItems(), ...InfusionClinicalAlertResource::getNavigationItems(), ...AlarmInsights::getNavigationItems(), ...ShiftHandoffReport::getNavigationItems()]))
                 ->group(NavigationGroup::make('Configuración')->items([...PumpDeviceResource::getNavigationItems(), ...DrugInfusionProfileResource::getNavigationItems()]))
-                ->group(NavigationGroup::make('Gobierno')->items([...ProgramMembershipResource::getNavigationItems(), ...InfusionIndicators::getNavigationItems()])))
+                ->group(NavigationGroup::make('Gobierno')->items([...ProgramMembershipResource::getNavigationItems(), ...InfusionIndicators::getNavigationItems(), ...OverrideAudit::getNavigationItems(), ...UnitTrends::getNavigationItems()])))
             ->homeUrl(fn (): string => Hub::getUrl(panel: 'admin'))->globalSearch(false)
             ->databaseNotifications()->databaseNotificationsPolling('15s')
             ->colors(['primary' => Color::Rose, 'gray' => Color::Slate])
             ->renderHook(PanelsRenderHook::TOPBAR_LOGO_AFTER, fn (): string => ExcellenceCenters::headerBadge('Monitoreo de Bombas'))
             ->renderHook(PanelsRenderHook::GLOBAL_SEARCH_AFTER, fn (): string => view('filament.components.centers-menu')->render())
             ->resources([PumpDeviceResource::class, DrugInfusionProfileResource::class, InfusionEventResource::class, InfusionClinicalAlertResource::class, ProgramMembershipResource::class])
-            ->pages([PumpCensus::class, StayInfusionTimeline::class, InfusionIndicators::class])->widgets([])
+            ->pages([MonitoringWall::class, PumpCensus::class, StayInfusionTimeline::class, InfusionIndicators::class, AlarmInsights::class, OverrideAudit::class, UnitTrends::class, ShiftHandoffReport::class])->widgets([])
             ->middleware([EncryptCookies::class, AddQueuedCookiesToResponse::class, StartSession::class, AuthenticateSession::class, ShareErrorsFromSession::class, PreventRequestForgery::class, SubstituteBindings::class, DisableBladeIconComponents::class, DispatchServingFilamentEvent::class])
             ->authMiddleware([Authenticate::class]);
     }

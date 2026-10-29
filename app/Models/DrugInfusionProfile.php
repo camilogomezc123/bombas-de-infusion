@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'name', 'aliases', 'category', 'dose_unit', 'vis_component', 'vis_weight', 'vis_rate_unit',
     'max_dose_soft', 'max_dose_hard', 'dose_limit_unit', 'max_cumulative_dose_per_kg_per_day',
     'pis_risk_applicable', 'pis_dose_threshold', 'pis_duration_threshold_minutes', 'is_active',
+    'continuous_infusion', 'max_interruption_minutes',
 ])]
 class DrugInfusionProfile extends Model
 {
@@ -18,6 +19,7 @@ class DrugInfusionProfile extends Model
         'sedation' => 'Sedación',
         'analgesia' => 'Analgesia',
         'antiemetic' => 'Antiemético',
+        'antibiotic' => 'Antibiótico (infusión continua)',
         'other' => 'Otro',
     ];
 
@@ -33,6 +35,8 @@ class DrugInfusionProfile extends Model
             'pis_risk_applicable' => 'boolean',
             'pis_dose_threshold' => 'decimal:4',
             'is_active' => 'boolean',
+            'continuous_infusion' => 'boolean',
+            'max_interruption_minutes' => 'integer',
         ];
     }
 

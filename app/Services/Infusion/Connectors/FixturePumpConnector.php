@@ -75,6 +75,50 @@ class FixturePumpConnector implements PumpDataConnector
                 existingDoseRateUnit: 'units/hr',
                 nextDrug: null,
                 rawPayload: ['source' => 'fixture', 'row' => $occurredAt],
+                channelNumber: 1,
+                deviceStatus: 'infusing',
+                batteryPct: 78,
+                usedDrugLibrary: true,
+                overriddenByOperator: 'ENF-1042',
+            );
+        }
+
+        // Canal 2 de la misma bomba (modelo EVO LVP, 2 canales): una segunda línea
+        // vasoactiva concurrente — así se ve en el canal multicanal de una central real,
+        // no solo "el último evento del dispositivo".
+        foreach ([
+            ['2026-10-28 07:30:00', 110],
+            ['2026-10-28 15:00:00', 95],
+        ] as [$occurredAt, $attempted]) {
+            $events[] = new PumpEventData(
+                hospitalDeviceId: $vasopresinaDevice['hospitalDeviceId'],
+                serialNumber: $vasopresinaDevice['serialNumber'],
+                model: $vasopresinaDevice['model'],
+                deviceGroup: $vasopresinaDevice['deviceGroup'],
+                careArea: $vasopresinaDevice['careArea'],
+                vendorInfusionId: $vasopresinaDevice['hospitalDeviceId'].'-CH2-'.str_replace([' ', ':', '-'], '', $occurredAt),
+                occurredAt: CarbonImmutable::parse($occurredAt),
+                medicationNameRaw: 'Norepinefrina',
+                concentrationRaw: '4 mg / 250 ml',
+                limitType: 'Tasa de dosis',
+                alertLevel: null,
+                nextAction: null,
+                attemptedValue: $attempted,
+                attemptedUnit: 'mcg/hr',
+                softLimitLow: null,
+                softLimitHigh: null,
+                hardLimitLow: null,
+                hardLimitHigh: null,
+                existingDoseRateValue: $attempted,
+                existingDoseRateUnit: 'mcg/hr',
+                nextDrug: null,
+                rawPayload: ['source' => 'fixture', 'row' => $occurredAt],
+                channelNumber: 2,
+                deviceStatus: 'infusing',
+                batteryPct: 78,
+                volumeRemainingMl: 180,
+                infusionDurationPlannedMinutes: 492,
+                usedDrugLibrary: true,
             );
         }
 
@@ -109,6 +153,11 @@ class FixturePumpConnector implements PumpDataConnector
                 existingDoseRateUnit: 'ml/hr',
                 nextDrug: null,
                 rawPayload: ['source' => 'fixture', 'row' => $occurredAt],
+                channelNumber: 1,
+                deviceStatus: 'occlusion',
+                batteryPct: 78,
+                usedDrugLibrary: false,
+                overriddenByOperator: 'ENF-1042',
             );
         }
 
@@ -135,6 +184,13 @@ class FixturePumpConnector implements PumpDataConnector
             existingDoseRateUnit: null,
             nextDrug: 'Hioscina',
             rawPayload: ['source' => 'fixture', 'row' => '2026-10-28 08:44:06'],
+            channelNumber: 1,
+            deviceStatus: 'battery_low',
+            batteryPct: 18,
+            volumeRemainingMl: 40,
+            infusionDurationPlannedMinutes: 11,
+            usedDrugLibrary: false,
+            overriddenByOperator: 'ENF-2089',
         );
 
         return $events;

@@ -119,6 +119,7 @@ class CumulativeDoseCalculator
 
         InfusionClinicalAlert::create([
             'icu_stay_id' => $icuStay->id,
+            'drug_infusion_profile_id' => $profile->id,
             'type' => 'max_dose_exceeded',
             'severity' => 'critical',
             'message' => sprintf(

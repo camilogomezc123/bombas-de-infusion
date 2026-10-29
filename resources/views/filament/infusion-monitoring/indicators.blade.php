@@ -27,6 +27,26 @@
                 <p class="text-sm font-bold text-slate-700">Eventos totales registrados</p>
                 <p class="mt-2 text-3xl font-black text-slate-950">{{ $m['total_events'] }}</p>
             </article>
+            <article class="rounded-xl border bg-white p-4">
+                <p class="text-sm font-bold text-slate-700">Cumplimiento de librería de dosis</p>
+                <p class="mt-2 text-3xl font-black text-slate-950">{{ $m['library_compliance_pct'] === null ? 'Sin dato' : number_format($m['library_compliance_pct'], 1, ',', '.').'%' }}</p>
+            </article>
+            <article class="rounded-xl border bg-white p-4">
+                <p class="text-sm font-bold text-slate-700">Interrupciones de antibiótico (código sepsis)</p>
+                <p class="mt-2 text-3xl font-black text-slate-950">{{ $m['open_antibiotic_interruptions'] }}</p>
+            </article>
+            <article class="rounded-xl border bg-white p-4">
+                <p class="text-sm font-bold text-slate-700">Opioide sin dolor evaluado (ABCDEF)</p>
+                <p class="mt-2 text-3xl font-black text-slate-950">{{ $m['open_pain_assessment_gaps'] }}</p>
+            </article>
+            <article class="rounded-xl border bg-white p-4">
+                <p class="text-sm font-bold text-slate-700">Duplicidad terapéutica</p>
+                <p class="mt-2 text-3xl font-black text-slate-950">{{ $m['open_therapeutic_duplications'] }}</p>
+            </article>
+            <article class="rounded-xl border bg-white p-4">
+                <p class="text-sm font-bold text-slate-700">Doble verificación (alto riesgo)</p>
+                <p class="mt-2 text-3xl font-black text-slate-950">{{ $m['co_sign_compliance_pct'] === null ? 'Sin dato' : number_format($m['co_sign_compliance_pct'], 1, ',', '.').'%' }}</p>
+            </article>
         </section>
     </div>
 </x-filament-panels::page>

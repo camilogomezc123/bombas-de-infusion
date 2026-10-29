@@ -54,6 +54,13 @@ class InfusionEventIngestionService
                     'next_drug' => $data->nextDrug,
                     'raw_payload' => $data->rawPayload,
                     'ingested_at' => now(),
+                    'channel_number' => $data->channelNumber,
+                    'device_status' => $data->deviceStatus,
+                    'battery_pct' => $data->batteryPct,
+                    'volume_remaining_ml' => $data->volumeRemainingMl,
+                    'infusion_duration_planned_minutes' => $data->infusionDurationPlannedMinutes,
+                    'used_drug_library' => $data->usedDrugLibrary,
+                    'overridden_by_operator' => $data->overriddenByOperator,
                 ],
             );
 
@@ -82,6 +89,17 @@ class InfusionEventIngestionService
         if ($isNew) {
             $device->current_bed_label = $data->careArea;
         }
+
+        if ($data->deviceStatus) {
+            $device->status = $data->deviceStatus;
+            $device->last_status_at = now();
+        }
+
+        if ($data->batteryPct !== null) {
+            $device->battery_pct = $data->batteryPct;
+        }
+
+        $device->channel_count = max($device->channel_count ?? 1, $data->channelNumber);
 
         $device->save();
 

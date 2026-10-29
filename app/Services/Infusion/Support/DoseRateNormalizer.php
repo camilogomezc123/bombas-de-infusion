@@ -42,6 +42,7 @@ class DoseRateNormalizer
             'mcg/kg/min' => $massKind === 'mcg' ? $massPerMinute / $weightKg : null,
             'units/kg/min' => $massKind === 'units' ? $massPerMinute / $weightKg : null,
             'mg/kg/h' => $massKind === 'mcg' ? ($massPerMinute * 60 / 1000) / $weightKg : null,
+            'mcg/kg/h' => $massKind === 'mcg' ? ($massPerMinute * 60) / $weightKg : null,
             default => null,
         };
     }

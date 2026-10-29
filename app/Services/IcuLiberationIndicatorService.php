@@ -30,6 +30,7 @@ class IcuLiberationIndicatorService
         'reintubation_pct' => ['label' => 'Reintubación', 'target' => null, 'direction' => 'lte'],
         'unplanned_extubation_pct' => ['label' => 'Autoextubación', 'target' => null, 'direction' => 'lte'],
         'pics_followup_rate_pct' => ['label' => 'Seguimiento post-UCI iniciado', 'target' => null, 'direction' => 'gte'],
+        'opioid_pain_documentation_pct' => ['label' => 'Dolor evaluado con opioide activo (dato de bomba, módulo BOMBAS)', 'target' => null, 'direction' => 'gte'],
     ];
 
     public function dashboard(?string $year = null): array
@@ -65,6 +66,7 @@ class IcuLiberationIndicatorService
             'reintubation_pct' => $this->percentage($extubated, fn (IcuStay $s) => $s->reintubation_at !== null),
             'unplanned_extubation_pct' => $this->percentage($ventilated, fn (IcuStay $s) => (bool) $s->unplanned_extubation),
             'pics_followup_rate_pct' => $this->percentage($discharged, fn (IcuStay $s) => $s->picsFollowups->isNotEmpty()),
+            'opioid_pain_documentation_pct' => $this->opioidPainDocumentation($stays),
         ];
     }
 
@@ -147,6 +149,24 @@ class IcuLiberationIndicatorService
         }
 
         return $applicable === 0 ? null : round(($fulfilled / $applicable) * 100, 1);
+    }
+
+    /**
+     * Cruza el dato estructurado de bomba (módulo BOMBAS, tabla compartida `icu_stays`)
+     * con el componente "A" del bundle ABCDEF: de las estancias con al menos un evento
+     * de infusión de opioide registrado por la bomba, qué porcentaje tiene además una
+     * evaluación de dolor documentada en ICU Liberation durante la estancia. ICU
+     * Liberation hoy solo registra analgésicos como texto libre
+     * (icu_sedation_assessments.analgesics) — este indicador usa el dato de bomba, más
+     * confiable, para medir si la evaluación de dolor de verdad acompañó la analgesia.
+     */
+    private function opioidPainDocumentation(Collection $stays): ?float
+    {
+        $withOpioidInfusion = $stays->filter(fn (IcuStay $s): bool => $s->infusionEvents()
+            ->whereHas('drugInfusionProfile', fn (Builder $q) => $q->where('category', 'analgesia'))
+            ->exists());
+
+        return $this->percentage($withOpioidInfusion, fn (IcuStay $s) => $s->painAssessments->isNotEmpty());
     }
 
     private function ventilationDays(IcuStay $stay): ?float

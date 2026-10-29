@@ -60,7 +60,7 @@ class InfusionEventIngestionTest extends TestCase
 
         $result = $this->ingestFixture();
 
-        $this->assertSame(11, $result->events->count());
+        $this->assertSame(13, $result->events->count());
         $this->assertContains($stay->id, $result->touchedIcuStayIds);
 
         $vasopresinaEvents = InfusionEvent::query()->where('medication_name_raw', 'Vasopresina')->get();
@@ -128,7 +128,7 @@ class InfusionEventIngestionTest extends TestCase
 
         $summary = app(InfusionIndicatorService::class)->summary();
 
-        $this->assertSame(11, $summary['total_events']);
+        $this->assertSame(13, $summary['total_events']);
         $this->assertGreaterThan(0, $summary['hard_limit_override_rate_pct']);
         $this->assertNotNull($summary['avg_vis_score']);
     }

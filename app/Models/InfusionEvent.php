@@ -13,9 +13,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'attempted_value', 'attempted_unit', 'soft_limit_low', 'soft_limit_high', 'hard_limit_low',
     'hard_limit_high', 'existing_dose_rate_value', 'existing_dose_rate_unit', 'next_drug',
     'raw_payload', 'ingested_at',
+    'channel_number', 'device_status', 'battery_pct', 'volume_remaining_ml',
+    'infusion_duration_planned_minutes', 'used_drug_library', 'overridden_by_operator',
+    'co_signed_by', 'co_signed_at',
 ])]
 class InfusionEvent extends Model
 {
+    /**
+     * Categorías de fármaco donde se espera doble verificación (co-firma) de la
+     * programación normal, no solo de las anulaciones de límite — alto riesgo si se
+     * programa mal: vasoactivos, opioides, sedación.
+     */
+    public const HIGH_RISK_CATEGORIES = ['vasoactive', 'analgesia', 'sedation'];
+
     protected function casts(): array
     {
         return [
@@ -28,12 +38,28 @@ class InfusionEvent extends Model
             'existing_dose_rate_value' => 'decimal:4',
             'raw_payload' => 'array',
             'ingested_at' => 'datetime',
+            'channel_number' => 'integer',
+            'battery_pct' => 'integer',
+            'volume_remaining_ml' => 'decimal:2',
+            'infusion_duration_planned_minutes' => 'integer',
+            'used_drug_library' => 'boolean',
+            'co_signed_at' => 'datetime',
         ];
     }
 
     public function pumpDevice(): BelongsTo
     {
         return $this->belongsTo(PumpDevice::class);
+    }
+
+    public function coSignedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'co_signed_by');
+    }
+
+    public function requiresCoSign(): bool
+    {
+        return in_array($this->drugInfusionProfile?->category, self::HIGH_RISK_CATEGORIES, true);
     }
 
     public function icuStay(): BelongsTo

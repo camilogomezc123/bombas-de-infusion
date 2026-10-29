@@ -35,5 +35,12 @@ readonly class PumpEventData
         public ?string $existingDoseRateUnit,
         public ?string $nextDrug,
         public array $rawPayload = [],
+        public int $channelNumber = 1,
+        public ?string $deviceStatus = null,
+        public ?int $batteryPct = null,
+        public ?float $volumeRemainingMl = null,
+        public ?int $infusionDurationPlannedMinutes = null,
+        public bool $usedDrugLibrary = true,
+        public ?string $overriddenByOperator = null,
     ) {}
 }

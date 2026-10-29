@@ -79,6 +79,12 @@ class DrugInfusionProfileResource extends Resource
                 TextInput::make('pis_duration_threshold_minutes')->label('Duración sostenida mínima (min)')->numeric()
                     ->visible(fn ($get) => (bool) $get('pis_risk_applicable')),
             ]),
+            Section::make('Continuidad (antibióticos en infusión continua — código sepsis)')->columns(3)->schema([
+                Toggle::make('continuous_infusion')->label('Infusión continua/extendida')->live()
+                    ->helperText('Para antibióticos donde la interrupción (no la dosis máxima) es el riesgo clínico relevante.'),
+                TextInput::make('max_interruption_minutes')->label('Minutos sin evento = posible interrupción')->numeric()
+                    ->visible(fn ($get) => (bool) $get('continuous_infusion')),
+            ]),
             Toggle::make('is_active')->label('Activo')->default(true),
         ]);
     }
@@ -92,6 +98,7 @@ class DrugInfusionProfileResource extends Resource
             IconColumn::make('vis_component')->label('VIS')->boolean(),
             TextColumn::make('max_dose_hard')->label('Límite duro')->placeholder('—'),
             IconColumn::make('pis_risk_applicable')->label('Riesgo PIS')->boolean(),
+            IconColumn::make('continuous_infusion')->label('Continua')->boolean(),
             IconColumn::make('is_active')->label('Activo')->boolean(),
         ])->defaultSort('name');
     }

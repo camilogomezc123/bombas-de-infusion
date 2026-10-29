@@ -56,6 +56,7 @@ class InfusionClinicalAlertResource extends Resource
             TextColumn::make('icuStay.case_number')->label('Caso')->placeholder('—'),
             TextColumn::make('icuStay.patient.full_name')->label('Paciente')->placeholder('—'),
             TextColumn::make('icuStay.bed_label')->label('Cama')->placeholder('—'),
+            TextColumn::make('drugInfusionProfile.name')->label('Fármaco')->placeholder('—'),
             TextColumn::make('type')->label('Tipo')
                 ->formatStateUsing(fn (string $s) => InfusionClinicalAlert::TYPES[$s] ?? $s)->badge(),
             TextColumn::make('severity')->label('Severidad')

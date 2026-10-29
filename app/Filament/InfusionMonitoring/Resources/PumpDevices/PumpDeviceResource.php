@@ -74,6 +74,13 @@ class PumpDeviceResource extends Resource
             TextColumn::make('device_group')->label('Grupo')->placeholder('—'),
             TextColumn::make('icuUnit.name')->label('Unidad')->placeholder('—'),
             TextColumn::make('current_bed_label')->label('Cama actual')->placeholder('Sin asignar'),
+            TextColumn::make('status')->label('Estado')->badge()
+                ->formatStateUsing(fn (?string $state): string => PumpDevice::STATUSES[$state] ?? '—')
+                ->color(fn (?string $state): string => PumpDevice::statusColor($state)),
+            TextColumn::make('battery_pct')->label('Batería')->placeholder('—')
+                ->formatStateUsing(fn (?int $state): string => $state === null ? '—' : "{$state}%")
+                ->color(fn (?int $state): string => $state !== null && $state <= 20 ? 'warning' : 'gray'),
+            TextColumn::make('channel_count')->label('Canales'),
             IconColumn::make('is_active')->label('Activa')->boolean(),
             TextColumn::make('infusion_events_count')->label('Eventos')->counts('infusionEvents'),
         ])->defaultSort('hospital_device_id');

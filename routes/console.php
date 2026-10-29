@@ -46,3 +46,11 @@ Schedule::command('agora:send-sepsis-monthly-digest')
 Schedule::command('infusion:ingest-events')
     ->everyFiveMinutes()
     ->withoutOverlapping();
+
+Schedule::command('infusion:check-antibiotic-continuity')
+    ->everyFifteenMinutes()
+    ->withoutOverlapping();
+
+Schedule::command('infusion:check-opioid-pain-documentation')
+    ->everyFifteenMinutes()
+    ->withoutOverlapping();

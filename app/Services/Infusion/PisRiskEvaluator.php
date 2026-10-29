@@ -75,6 +75,7 @@ class PisRiskEvaluator
                 InfusionClinicalAlert::create([
                     'icu_stay_id' => $icuStay->id,
                     'infusion_event_id' => $next->id,
+                    'drug_infusion_profile_id' => $profile->id,
                     'type' => 'pis_risk',
                     'severity' => 'warning',
                     'message' => sprintf(
