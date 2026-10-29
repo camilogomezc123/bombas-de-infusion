@@ -1,0 +1,481 @@
+/* POSUCI 360 Conecta — modo "aventura de recuperación" del portal paciente/familia.
+   Archivo estático (sin paso de build): se sirve directo, no pasa por Vite. */
+
+:root {
+    --game-purple: #7c3aed;
+    --game-purple-dark: #5b21b6;
+    --game-pink: #ec4899;
+    --game-orange: #f97316;
+    --game-yellow: #facc15;
+    --game-green: #22c55e;
+    --game-blue: #0ea5e9;
+    --game-teal: #0e7490;
+}
+
+body.game-mode {
+    background: linear-gradient(180deg, #eef2ff 0%, #f5f7f8 320px);
+}
+
+/* ---------- Héroe / cabecera con mascota ---------- */
+.game-hero {
+    position: relative;
+    border-radius: 1.75rem;
+    padding: 1.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--game-purple) 0%, var(--game-pink) 100%);
+    color: #fff;
+    box-shadow: 0 12px 30px -12px rgba(124, 58, 237, .55);
+    overflow: hidden;
+}
+
+.game-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 85% -10%, rgba(255,255,255,.25), transparent 55%);
+    pointer-events: none;
+}
+
+.game-mascot {
+    font-size: 3.2rem;
+    line-height: 1;
+    display: inline-block;
+    animation: game-float 3.2s ease-in-out infinite;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,.15));
+}
+
+.game-hero h1 {
+    font-weight: 800;
+    letter-spacing: -.02em;
+}
+
+.game-speech {
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 1rem;
+    padding: .6rem .9rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* ---------- Tarjeta de nivel / XP ---------- */
+.xp-card {
+    border-radius: 1.5rem;
+    background: #fff;
+    box-shadow: 0 8px 24px -14px rgba(15, 23, 42, .25);
+    padding: 1.1rem 1.3rem;
+}
+
+.xp-level-badge {
+    width: 3.4rem;
+    height: 3.4rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--game-orange), var(--game-yellow));
+    color: #7c2d12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.25rem;
+    box-shadow: 0 6px 14px -6px rgba(249, 115, 22, .7);
+    flex-shrink: 0;
+}
+
+.xp-bar-track {
+    height: .9rem;
+    border-radius: 999px;
+    background: #e9ecf5;
+    overflow: hidden;
+}
+
+.xp-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--game-blue), var(--game-green));
+    transition: width .8s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ---------- Insignias ---------- */
+.badge-shelf {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+}
+
+.badge-chip {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .4rem .75rem .4rem .55rem;
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+    border: 1px solid #fdba74;
+    color: #9a3412;
+}
+
+.badge-chip .badge-icon { font-size: 1.1rem; }
+
+.badge-chip.locked {
+    background: #f1f3f7;
+    border-color: #dfe3ec;
+    color: #94a1b8;
+    filter: grayscale(1);
+    opacity: .75;
+}
+
+/* ---------- Misiones (accesos directos) ---------- */
+.mission-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.mission-card {
+    position: relative;
+    display: block;
+    border-radius: 1.35rem;
+    padding: 1.2rem 1.1rem;
+    text-decoration: none;
+    color: #1e2337;
+    background: #fff;
+    border: 1px solid #eceef5;
+    box-shadow: 0 6px 16px -12px rgba(15, 23, 42, .3);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.mission-card:hover {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0 16px 28px -14px rgba(15, 23, 42, .35);
+    color: #1e2337;
+}
+
+.mission-icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: .65rem;
+    color: #fff;
+}
+
+.mission-title { font-weight: 800; margin-bottom: .15rem; }
+.mission-desc { font-size: .82rem; color: #6b7280; }
+
+.mission-pending-dot {
+    position: absolute;
+    top: .85rem;
+    right: .85rem;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    padding: 0 .35rem;
+    border-radius: 999px;
+    background: var(--game-pink);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: game-pulse 1.8s ease-in-out infinite;
+}
+
+/* ---------- Misiones/metas (pantalla Metas) ---------- */
+.quest-card {
+    border-radius: 1.5rem;
+    background: #fff;
+    border: 1px solid #eceef5;
+    box-shadow: 0 8px 22px -16px rgba(15, 23, 42, .3);
+    padding: 1.25rem;
+    margin-bottom: 1.1rem;
+}
+
+.quest-ring {
+    --pct: 0;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: .95rem;
+    color: #16532d;
+    background:
+        radial-gradient(closest-side, #fff 72%, transparent 73% 100%),
+        conic-gradient(var(--game-green) calc(var(--pct) * 1%), #e9ecf5 0);
+    flex-shrink: 0;
+}
+
+.quest-stars { color: var(--game-yellow); letter-spacing: .1em; }
+
+.btn-game {
+    background: linear-gradient(135deg, var(--game-purple), var(--game-pink));
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: .6rem 1.4rem;
+    box-shadow: 0 8px 18px -8px rgba(124, 58, 237, .6);
+    transition: transform .15s ease;
+}
+
+.btn-game:hover { transform: translateY(-2px); color: #fff; }
+.btn-game:active { transform: translateY(0); }
+
+.btn-game-outline {
+    background: #fff;
+    border: 2px solid var(--game-purple);
+    color: var(--game-purple);
+    font-weight: 700;
+    border-radius: 999px;
+    padding: .5rem 1.2rem;
+    transition: transform .15s ease, background .15s ease;
+}
+
+.btn-game-outline:hover { background: #f5f3ff; color: var(--game-purple-dark); transform: translateY(-2px); }
+
+/* ---------- Racha (streak) ---------- */
+.streak-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    background: linear-gradient(135deg, #fff1e6, #ffe4d6);
+    border: 1px solid #fdba74;
+    color: #9a3412;
+    border-radius: 999px;
+    padding: .35rem .8rem;
+    font-weight: 800;
+    font-size: .9rem;
+}
+
+.streak-flame { font-size: 1.05rem; }
+
+/* ---------- Tarjetas estilo "publicación" (feed) ---------- */
+.feed-card {
+    border-radius: 1.4rem;
+    background: #fff;
+    border: 1px solid #eceef5;
+    box-shadow: 0 8px 20px -16px rgba(15, 23, 42, .3);
+    padding: 1.1rem 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.feed-header { display: flex; align-items: center; gap: .65rem; margin-bottom: .6rem; }
+
+.avatar-circle {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: #fff;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--game-purple), var(--game-pink));
+}
+
+.story-ring {
+    padding: 3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--game-orange), var(--game-pink), var(--game-purple));
+    display: inline-flex;
+}
+
+.story-ring.seen { background: #dfe3ec; }
+
+.story-ring .avatar-circle { border: 2px solid #fff; }
+
+.reaction-bar { display: flex; gap: .4rem; margin-top: .7rem; }
+
+.reaction-btn {
+    border: 1px solid #eceef5;
+    background: #f8f9fc;
+    border-radius: 999px;
+    padding: .3rem .7rem;
+    font-size: .95rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform .12s ease, background .12s ease;
+}
+
+.reaction-btn:hover { transform: scale(1.12); }
+.reaction-btn.active { background: #fee2e2; border-color: #fca5a5; }
+
+/* ---------- Checklist con "pop" al completar ---------- */
+.check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+    border-radius: 1.1rem;
+    padding: .85rem 1rem;
+    background: #fff;
+    border: 1px solid #eceef5;
+    margin-bottom: .7rem;
+    box-shadow: 0 6px 16px -14px rgba(15, 23, 42, .3);
+}
+
+.check-row.is-done { background: linear-gradient(135deg, #f0fdf4, #ecfdf5); border-color: #bbf7d0; }
+
+.check-circle {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 2px solid #d7dbe6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 800;
+    color: #fff;
+}
+
+.check-row.is-done .check-circle {
+    background: var(--game-green);
+    border-color: var(--game-green);
+    animation: game-check-pop .4s ease;
+}
+
+/* ---------- Tarjeta de estadística (monitoreo) ---------- */
+.stat-tile {
+    border-radius: 1.25rem;
+    padding: 1rem 1.1rem;
+    color: #fff;
+    box-shadow: 0 10px 20px -14px rgba(15, 23, 42, .4);
+}
+
+/* ---------- Animaciones ---------- */
+@keyframes game-float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+@keyframes game-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@keyframes game-pop-in {
+    0% { opacity: 0; transform: translateY(10px) scale(.97); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.game-pop { animation: game-pop-in .45s ease both; }
+
+@keyframes game-check-pop {
+    0% { transform: scale(.6); }
+    60% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .game-mascot, .mission-pending-dot { animation: none; }
+    .game-pop { animation: none; }
+    .xp-bar-fill { transition: none; }
+    .check-row.is-done .check-circle { animation: none; }
+}
+
+/* ---------- Modo fácil: letra grande, más contraste, botones más grandes ----------
+   Pensado para que cualquier edad —sobre todo personas mayores o con baja visión—
+   pueda usar el portal cómodo. Se activa por cuenta (no por navegador) desde el botón
+   "Modo fácil" en la barra superior. */
+body.easy-mode {
+    font-size: 1.28rem;
+    line-height: 1.55;
+}
+
+body.easy-mode h1 { font-size: 2rem; }
+body.easy-mode h2, body.easy-mode .h2 { font-size: 1.6rem; }
+body.easy-mode h3, body.easy-mode .h3,
+body.easy-mode h5, body.easy-mode .h5 { font-size: 1.35rem; }
+body.easy-mode h6, body.easy-mode .h6 { font-size: 1.2rem; }
+
+body.easy-mode .small,
+body.easy-mode small { font-size: 1rem !important; }
+
+body.easy-mode .text-muted { color: #3f4859 !important; }
+
+body.easy-mode .btn,
+body.easy-mode .btn-game,
+body.easy-mode .btn-game-outline,
+body.easy-mode .btn-posuci {
+    font-size: 1.15rem;
+    padding: .75rem 1.5rem;
+}
+
+body.easy-mode .mission-card,
+body.easy-mode .check-row,
+body.easy-mode .feed-card,
+body.easy-mode .quest-card {
+    border-width: 2px;
+}
+
+body.easy-mode .mission-icon {
+    width: 3.4rem;
+    height: 3.4rem;
+    font-size: 1.7rem;
+}
+
+body.easy-mode .form-control,
+body.easy-mode .form-select,
+body.easy-mode .form-label {
+    font-size: 1.15rem;
+}
+
+body.easy-mode .form-control,
+body.easy-mode .form-select {
+    padding: .65rem .9rem;
+}
+
+body.easy-mode #readAloudBtn {
+    font-size: 1.1rem;
+    padding: .9rem 1.6rem;
+}
+
+/* ---------- Hablar en vez de escribir (micrófono) ---------- */
+.voice-input-btn {
+    display: none;
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    border: none;
+    background: #f1f5f9;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    cursor: pointer;
+    z-index: 2;
+}
+
+body.voice-input-supported .voice-input-btn { display: inline-flex; }
+
+.voice-input-btn.is-listening {
+    background: #fee2e2;
+    animation: game-pulse 1.2s ease-in-out infinite;
+}
+
+/* ---------- Celular (pantallas angostas) ---------- */
+@media (max-width: 480px) {
+    .game-hero { padding: 1.25rem 1rem; }
+    .game-mascot { font-size: 2.4rem; }
+    .xp-level-badge { width: 2.6rem; height: 2.6rem; font-size: 1.1rem; }
+    .mission-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .7rem; }
+    .mission-card { padding: .9rem .8rem; }
+    .fc .fc-toolbar-title { font-size: 1.05rem !important; }
+    .fc .fc-button { padding: .3rem .55rem !important; font-size: .85rem !important; }
+}
+
+/* ---------- Impresión (resumen para la cita médica) ---------- */
+@media print {
+    .posuci-navbar, #readAloudBtn, .no-print { display: none !important; }
+    body { background: #fff !important; }
+    .feed-card, .quest-card, .mission-card { box-shadow: none !important; border: 1px solid #ccc !important; }
+}

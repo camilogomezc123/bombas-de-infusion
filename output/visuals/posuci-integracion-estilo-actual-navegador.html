@@ -1,0 +1,1594 @@
+<!doctype html><html lang="es" data-visualize-standalone><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><meta http-equiv="Content-Security-Policy" content="default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;self&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;"><title>POSUCI 360 · Integración con el diseño actual</title><style>:root{color-scheme:light;background:#f8fafc}html,body{margin:0}body{box-sizing:border-box;padding:16px;background:inherit}iframe{display:block;width:100%;height:calc(100vh - 32px);margin:0 auto;border:0}</style></head><body><iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="Integración de POSUCI conservando el diseño actual" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;es&quot; data-visualize-standalone&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &amp;#x27;none&amp;#x27;; script-src &amp;#x27;unsafe-inline&amp;#x27; &amp;#x27;unsafe-eval&amp;#x27; &amp;#x27;wasm-unsafe-eval&amp;#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &amp;#x27;unsafe-inline&amp;#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &amp;#x27;none&amp;#x27;; object-src &amp;#x27;none&amp;#x27;; base-uri &amp;#x27;none&amp;#x27;; form-action &amp;#x27;none&amp;#x27;&quot;&gt;&lt;title&gt;POSUCI 360 · Integración con el diseño actual&lt;/title&gt;&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(
+    --background,
+    var(--color-background-primary, light-dark(rgb(255 255 255), rgb(24 24 24)))
+  ) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: var(
+    --color-background-primary,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --card: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --card-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --popover: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255), rgb(45 45 45))
+  );
+  --popover-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --primary: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --primary-foreground: var(
+    --color-text-inverse,
+    light-dark(rgb(255 255 255), rgb(13 13 13))
+  );
+  --secondary: var(
+    --color-background-secondary,
+    light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%))
+  );
+  --secondary-foreground: var(
+    --color-text-primary,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: var(
+    --color-text-secondary,
+    light-dark(rgb(26 28 31 / 49.4%), rgb(255 255 255 / 49.8%))
+  );
+  --accent: var(
+    --color-background-info,
+    light-dark(rgb(229 242 255), rgb(13 39 63))
+  );
+  --accent-foreground: var(
+    --color-text-info,
+    light-dark(rgb(51 156 255), rgb(131 195 255))
+  );
+  --destructive: var(
+    --color-text-warning,
+    light-dark(rgb(226 85 7), rgb(255 133 73))
+  );
+  --border: var(
+    --color-border-secondary,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+  --input: var(
+    --color-border-primary,
+    light-dark(
+      rgb(26 28 31 / 11.8%),
+      color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+    )
+  );
+  --ring: var(
+    --color-ring-primary,
+    light-dark(rgb(51 156 255), rgb(131 195 255 / 76%))
+  );
+  --font-size-base: var(--font-text-md-size, 14px);
+  --blue: light-dark(rgb(51 156 255), rgb(51 156 255));
+  --orange: light-dark(rgb(226 85 7), rgb(251 106 34));
+  --green: light-dark(rgb(0 162 64), rgb(64 201 119));
+  --red: light-dark(rgb(224 46 42), rgb(255 103 100));
+  --purple: light-dark(rgb(146 79 247), rgb(173 123 249));
+  --yellow: light-dark(rgb(255 195 0), rgb(255 210 64));
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --icon-size: 16px;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --corner-shape: round;
+  --radius: var(--border-radius-lg, 10px);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  /* Preserve MCP aliases for older inline renderers without creating :root cycles. */
+  --color-background-primary: var(
+    --background,
+    light-dark(rgb(255 255 255), rgb(24 24 24))
+  );
+  --color-text-primary: var(
+    --foreground,
+    light-dark(rgb(26 28 31), rgb(255 255 255))
+  );
+  --color-border-secondary: var(
+    --border,
+    light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%))
+  );
+
+  margin: 0;
+  padding: var(--visualize-paint-gutter, 0px);
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--font-weight-medium, 500);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--foreground);
+  font: inherit;
+  text-align: start;
+}
+
+.table :is(th, td) {
+  padding-block: 10px;
+  padding-inline: 0 24px;
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--border);
+  text-align: start;
+  vertical-align: top;
+}
+
+.table-responsive &gt; .table :is(th, td) {
+  overflow-wrap: break-word;
+}
+
+.table :is(th, td):last-child {
+  padding-inline-end: 0;
+}
+
+.table :is(caption, thead th) {
+  font-weight: 600;
+}
+
+.table thead th {
+  padding-block: 8px;
+  border-bottom-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: 0;
+}
+
+.table.table-sm :is(th, td) {
+  padding-block: 6px;
+}
+
+.table.table-sm :is(th, td):not(:last-child) {
+  padding-inline-end: 16px;
+}
+
+.table :is(.text-end, [align=&quot;right&quot;]) {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(.text-center, [align=&quot;center&quot;]) {
+  text-align: center;
+}
+
+.table .text-nowrap {
+  white-space: nowrap;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: var(--corner-shape);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card, .progress) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  margin-block: 6px;
+  border: 0;
+  background: var(--border);
+}
+
+.nav {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress {
+  display: flex;
+  height: 8px;
+  margin-block: calc((var(--line-height-normal, 1.5em) - 8px) / 2);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+}
+
+.progress-bar:only-child {
+  border-radius: var(--radius-full);
+}
+
+.progress-bar {
+  height: 100%;
+  flex-shrink: 0;
+  border: 0;
+  background: var(--viz-series-1);
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.nav-link,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn,
+.nav-link {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover,
+.nav-link:not(:disabled):not([aria-disabled=&quot;true&quot;]):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.nav-pills .nav-link {
+  min-width: 0;
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.nav-justified .nav-link {
+  flex: 1 1 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.nav-pills .nav-link.active {
+  color: var(--foreground);
+  background: var(--muted);
+}
+
+.btn:disabled,
+.nav-link:disabled,
+.nav-link[aria-disabled=&quot;true&quot;] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: var(--corner-shape);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: var(--corner-shape);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: var(--corner-shape);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+  [aria-pressed=&quot;true&quot;],
+  [aria-selected=&quot;true&quot;],
+  .is-selected
+) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+  .btn,
+  .nav-link,
+  .form-control,
+  .form-select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Keep small-screen WebKit from zooming when a text field receives focus. */
+  .form-control,
+  .form-select {
+    font-size: max(16px, var(--font-size-normal));
+  }
+
+  .form-control[type=&quot;file&quot;]::file-selector-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .form-control-color[type=&quot;color&quot;] {
+    width: 44px;
+    height: 44px;
+  }
+
+  .form-control:is(
+    [type=&quot;date&quot;],
+    [type=&quot;datetime-local&quot;],
+    [type=&quot;month&quot;],
+    [type=&quot;time&quot;],
+    [type=&quot;week&quot;]
+  ) {
+    min-width: 0;
+    max-width: 100%;
+    padding-block: 8px;
+  }
+
+  .form-check {
+    min-height: 44px;
+    padding-inline: 15px;
+  }
+
+  .form-check-input {
+    position: relative;
+  }
+
+  .form-check-input::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    content: &quot;&quot;;
+    transform: translate(-50%, -50%);
+  }
+
+  .form-check-label {
+    display: inline-flex;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .form-range {
+    height: 44px;
+    touch-action: pan-y;
+  }
+
+  .form-range::-webkit-slider-runnable-track {
+    height: 44px;
+  }
+
+  .form-range::-moz-range-track {
+    height: 44px;
+  }
+
+  .form-range::-webkit-slider-thumb {
+    margin-top: 12px;
+  }
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+/* Model-authored chart rules can otherwise stretch icons after these styles load. */
+svg.lucide {
+  display: block;
+  width: var(--icon-size) !important;
+  height: var(--icon-size) !important;
+  flex: none;
+  margin: 0 !important;
+  stroke-width: 1.6;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}#posuci-integracion-actual{max-width:1160px;margin:0 auto}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap&quot;&gt;
+&lt;style&gt;
+#posuci-integracion-actual{--p-bg:light-dark(#f3f6f5,#131c1b);--p-surface:light-dark(#ffffff,#1c2826);--p-ink:light-dark(#18352f,#e6f1ed);--p-muted:light-dark(#5c706a,#aec1ba);--p-line:light-dark(#dce6e1,#354a43);--p-brand:light-dark(#196b56,#94d8bc);--p-onbrand:light-dark(#ffffff,#123328);--p-tint:light-dark(#e8f3ed,#283f35);--p-gold:light-dark(#785d23,#eed197);--p-goldbg:light-dark(#faf1dc,#443b28);--p-radius:16px;--p-space:22px;color:var(--p-ink);font-family:Inter,Segoe UI,Arial,sans-serif;font-size:14px;line-height:1.5;width:100%;background:transparent}
+#posuci-integracion-actual *{box-sizing:border-box}#posuci-integracion-actual [hidden]{display:none!important}#posuci-integracion-actual button,#posuci-integracion-actual input,#posuci-integracion-actual select,#posuci-integracion-actual textarea{font:inherit}#posuci-integracion-actual button{cursor:pointer}#posuci-integracion-actual button:focus-visible,#posuci-integracion-actual input:focus-visible,#posuci-integracion-actual select:focus-visible{outline:3px solid var(--p-brand);outline-offset:3px}#posuci-integracion-actual h1,#posuci-integracion-actual h2,#posuci-integracion-actual h3,#posuci-integracion-actual p{margin:0}#posuci-integracion-actual h1{font-size:26px;line-height:1.25;letter-spacing:-.6px;font-weight:650}#posuci-integracion-actual h2{font-size:17px;line-height:1.35;font-weight:600}#posuci-integracion-actual h3{font-size:14px;font-weight:600}#posuci-integracion-actual svg{flex-shrink:0}#posuci-integracion-actual .p-muted{color:var(--p-muted)}#posuci-integracion-actual .p-small{font-size:12px}#posuci-integracion-actual .p-kicker{font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:1.3px;color:var(--p-muted)}#posuci-integracion-actual .p-flex{display:flex;align-items:center;gap:12px;flex-wrap:wrap}#posuci-integracion-actual .p-between{justify-content:space-between}#posuci-integracion-actual .p-stack{display:grid;gap:16px}#posuci-integracion-actual .p-grow{flex:1;min-width:0}#posuci-integracion-actual .p-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}#posuci-integracion-actual .p-switch{display:flex;flex-wrap:wrap;gap:4px;padding:4px;background:var(--p-surface);border:1px solid var(--p-line);border-radius:12px}#posuci-integracion-actual .p-switch button{border:0;background:transparent;color:var(--p-muted);border-radius:8px;padding:9px 14px;font-weight:550;display:flex;gap:8px;align-items:center}#posuci-integracion-actual .p-switch button[aria-pressed=true]{background:var(--p-ink);color:var(--p-surface)}#posuci-integracion-actual .p-label{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:6px;color:var(--p-muted);background:var(--p-bg);font-size:11px;font-weight:550}#posuci-integracion-actual .p-label.good{color:var(--p-brand);background:var(--p-tint)}#posuci-integracion-actual .p-label.pending{color:var(--p-gold);background:var(--p-goldbg)}#posuci-integracion-actual .p-window{border:1px solid var(--p-line);border-radius:var(--p-radius);overflow:hidden;background:var(--p-bg)}#posuci-integracion-actual .p-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;background:var(--p-surface);border-bottom:1px solid var(--p-line)}#posuci-integracion-actual .p-brand{display:flex;align-items:center;gap:11px}#posuci-integracion-actual .p-logo{display:grid;place-items:center;width:35px;height:35px;border-radius:10px;background:var(--p-brand);color:var(--p-onbrand)}#posuci-integracion-actual .p-brandname{font-size:17px;font-weight:700;letter-spacing:-.4px}#posuci-integracion-actual .p-user{display:flex;gap:9px;align-items:center}#posuci-integracion-actual .p-avatar{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--p-tint);color:var(--p-brand);font-size:12px;font-weight:650;flex-shrink:0}#posuci-integracion-actual .p-layout{display:grid;grid-template-columns:180px minmax(0,1fr)}#posuci-integracion-actual .p-side{padding:22px 12px;background:var(--p-surface);border-right:1px solid var(--p-line)}#posuci-integracion-actual .p-side nav{display:grid;gap:5px}#posuci-integracion-actual .p-side button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:11px 12px;border:0;border-radius:9px;background:transparent;color:var(--p-muted);font-size:13px}#posuci-integracion-actual .p-side button[aria-current=page]{background:var(--p-tint);color:var(--p-brand);font-weight:600}#posuci-integracion-actual .p-side .p-kicker{padding:0 12px;margin-bottom:12px}#posuci-integracion-actual .p-sidefoot{padding:20px 12px;margin-top:35px;border-top:1px solid var(--p-line)}#posuci-integracion-actual .p-main{padding:var(--p-space);min-width:0;min-height:610px}#posuci-integracion-actual .p-title{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}#posuci-integracion-actual .p-title p{margin-top:5px;color:var(--p-muted)}#posuci-integracion-actual .p-button{border:1px solid var(--p-line);background:var(--p-surface);color:var(--p-ink);border-radius:9px;padding:9px 13px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-weight:550;min-height:38px}#posuci-integracion-actual .p-button.primary{background:var(--p-brand);border-color:var(--p-brand);color:var(--p-onbrand)}#posuci-integracion-actual .p-button.quiet{border-color:transparent;background:transparent;color:var(--p-brand);padding-left:0;padding-right:0}#posuci-integracion-actual .p-button:disabled{cursor:default;opacity:.55}#posuci-integracion-actual .p-panel{padding:18px;border:1px solid var(--p-line);border-radius:var(--p-radius);background:var(--p-surface);min-width:0}#posuci-integracion-actual .p-panelhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px}#posuci-integracion-actual .p-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:20px}#posuci-integracion-actual .p-stat{padding:17px;background:var(--p-surface);border:1px solid var(--p-line);border-radius:var(--p-radius)}#posuci-integracion-actual .p-stat strong{display:block;font-size:29px;font-weight:600;letter-spacing:-1px;margin:6px 0 3px;font-variant-numeric:tabular-nums}#posuci-integracion-actual .p-stat span{color:var(--p-muted);font-size:12px}#posuci-integracion-actual .p-columns{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px}#posuci-integracion-actual .p-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--p-line)}#posuci-integracion-actual .p-row:last-child{border-bottom:0;padding-bottom:0}#posuci-integracion-actual .p-row:first-child{padding-top:0}#posuci-integracion-actual .p-row p{color:var(--p-muted);font-size:12px;margin-top:3px}#posuci-integracion-actual .p-icon{width:34px;height:34px;border-radius:9px;background:var(--p-tint);color:var(--p-brand);display:grid;place-items:center;flex-shrink:0}#posuci-integracion-actual .p-date{min-width:42px;text-align:center;padding:7px;background:var(--p-bg);border-radius:9px;line-height:1.2;font-size:11px}#posuci-integracion-actual .p-date strong{display:block;font-size:18px}#posuci-integracion-actual .p-note{padding-top:16px;color:var(--p-muted);font-size:12px}#posuci-integracion-actual .p-person{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--p-line);flex-wrap:wrap}#posuci-integracion-actual .p-person:last-child{border-bottom:0;padding-bottom:0}#posuci-integracion-actual .p-person:first-child{padding-top:0}#posuci-integracion-actual .p-track{height:6px;border-radius:6px;background:var(--p-line);overflow:hidden;margin-top:10px}#posuci-integracion-actual .p-track span{display:block;height:100%;background:var(--p-brand);border-radius:6px}#posuci-integracion-actual .p-field{display:grid;gap:6px;font-size:12px;color:var(--p-muted);min-width:0}#posuci-integracion-actual .p-field select,#posuci-integracion-actual .p-field input,#posuci-integracion-actual .p-field textarea{width:100%;padding:10px 12px;border:1px solid var(--p-line);border-radius:8px;background:var(--p-surface);color:var(--p-ink);min-height:40px}#posuci-integracion-actual .p-field textarea{resize:vertical;min-height:80px}#posuci-integracion-actual .p-formrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}#posuci-integracion-actual .p-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}#posuci-integracion-actual .p-filter button{border:1px solid var(--p-line);border-radius:20px;background:var(--p-surface);padding:7px 12px;color:var(--p-muted);font-size:12px}#posuci-integracion-actual .p-filter button[aria-pressed=true]{background:var(--p-tint);border-color:var(--p-brand);color:var(--p-brand)}#posuci-integracion-actual .p-library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}#posuci-integracion-actual .p-material{background:var(--p-surface);border:1px solid var(--p-line);border-radius:var(--p-radius);overflow:hidden;display:flex;flex-direction:column}#posuci-integracion-actual .p-cover{height:90px;display:flex;justify-content:space-between;align-items:center;padding:20px;background:var(--p-tint);color:var(--p-brand)}#posuci-integracion-actual .p-cover i,#posuci-integracion-actual .p-cover svg{width:28px;height:28px}#posuci-integracion-actual .p-materialbody{padding:16px;display:grid;gap:12px;flex:1}#posuci-integracion-actual .p-materialbody p{font-size:12px;color:var(--p-muted)}#posuci-integracion-actual .p-empty{padding:24px 12px;display:grid;gap:10px;text-align:center;justify-items:center;color:var(--p-muted)}#posuci-integracion-actual .p-empty .p-icon{width:46px;height:46px}#posuci-integracion-actual .p-reportrow{display:grid;grid-template-columns:100px 1fr 60px;gap:14px;align-items:center;padding:13px 0}#posuci-integracion-actual .p-status{font-size:12px;color:var(--p-brand);min-height:20px;padding:10px 4px 0}#posuci-integracion-actual .p-phone{max-width:420px;margin:0 auto;background:var(--p-bg);border:1px solid var(--p-line);border-radius:24px;overflow:hidden}#posuci-integracion-actual .p-phonehead{padding:18px 20px;background:var(--p-surface);border-bottom:1px solid var(--p-line)}#posuci-integracion-actual .p-phonebody{padding:20px;min-height:540px}#posuci-integracion-actual .p-phone h1{font-size:25px}#posuci-integracion-actual .p-phone .p-panel{padding:16px}#posuci-integracion-actual .p-phone .p-title{margin-bottom:18px}#posuci-integracion-actual .p-bottomnav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:var(--p-surface);border-top:1px solid var(--p-line);padding:10px 4px}#posuci-integracion-actual .p-bottomnav button{border:0;background:transparent;color:var(--p-muted);font-size:11px;padding:7px 0;display:grid;justify-items:center;gap:5px;min-height:46px}#posuci-integracion-actual .p-bottomnav button[aria-current=page]{color:var(--p-brand);font-weight:650}#posuci-integracion-actual .p-task{display:flex;align-items:center;gap:11px;padding:13px 0;border-bottom:1px solid var(--p-line);cursor:pointer}#posuci-integracion-actual .p-task:last-child{border-bottom:0;padding-bottom:0}#posuci-integracion-actual .p-task input{width:20px;height:20px;accent-color:var(--p-brand);flex-shrink:0}#posuci-integracion-actual .p-task small{display:block;font-size:12px;color:var(--p-muted)}#posuci-integracion-actual .p-task.done .p-taskname{text-decoration:line-through;color:var(--p-muted)}#posuci-integracion-actual .p-welcome{background:var(--p-tint);border:0}#posuci-integracion-actual .p-dayline{display:flex;justify-content:space-between;font-size:12px;color:var(--p-muted);margin-top:16px}#posuci-integracion-actual .p-checks{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}#posuci-integracion-actual .p-checks button{flex:1;min-width:74px;border:1px solid var(--p-line);background:var(--p-surface);color:var(--p-ink);padding:9px 4px;border-radius:8px;font-size:12px}#posuci-integracion-actual .p-checks button[aria-pressed=true]{background:var(--p-brand);color:var(--p-onbrand);border-color:var(--p-brand)}#posuci-integracion-actual .p-phone .p-button{min-height:42px}#posuci-integracion-actual .p-phone .p-stats{grid-template-columns:1fr 1fr;margin-bottom:0}#posuci-integracion-actual .p-phone .p-stat strong{font-size:24px}#posuci-integracion-actual .p-demofooter{padding:12px 20px;border-top:1px solid var(--p-line);font-size:11px;color:var(--p-muted);background:var(--p-surface)}#posuci-integracion-actual .p-detail{margin-top:16px}#posuci-integracion-actual .p-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px;font-size:12px;color:var(--p-muted)}#posuci-integracion-actual .p-flow strong{color:var(--p-brand);font-weight:550}#posuci-integracion-actual .p-heroaction{margin-top:15px}#posuci-integracion-actual .p-topspace{margin-top:18px}
+@media(max-width:760px){#posuci-integracion-actual .p-layout{grid-template-columns:1fr}#posuci-integracion-actual .p-side{border-right:0;border-bottom:1px solid var(--p-line);padding:10px}#posuci-integracion-actual .p-side nav{display:flex;flex-wrap:wrap;gap:4px}#posuci-integracion-actual .p-side button{width:auto;padding:9px;font-size:12px}#posuci-integracion-actual .p-side .p-kicker,#posuci-integracion-actual .p-sidefoot{display:none}#posuci-integracion-actual .p-columns{grid-template-columns:1fr}#posuci-integracion-actual .p-main{min-height:0;padding:18px}#posuci-integracion-actual .p-usertext{display:none}}
+@media(max-width:480px){#posuci-integracion-actual .p-header{padding:14px}#posuci-integracion-actual .p-main{padding:14px}#posuci-integracion-actual h1{font-size:23px}#posuci-integracion-actual .p-stats{gap:7px}#posuci-integracion-actual .p-stat{padding:11px 9px}#posuci-integracion-actual .p-stat strong{font-size:25px}#posuci-integracion-actual .p-stat span{font-size:11px}#posuci-integracion-actual .p-library,#posuci-integracion-actual .p-formrow{grid-template-columns:1fr}#posuci-integracion-actual .p-phonebody{padding:16px}#posuci-integracion-actual .p-toolbar{gap:9px}#posuci-integracion-actual .p-switch{width:100%}#posuci-integracion-actual .p-switch button{flex:1;justify-content:center;font-size:12px;padding:9px 6px}#posuci-integracion-actual .p-row{flex-wrap:wrap}#posuci-integracion-actual .p-reportrow{grid-template-columns:65px 1fr 48px;gap:8px}#posuci-integracion-actual .p-flow{font-size:11px}}
+@media(pointer:coarse){#posuci-integracion-actual button{min-height:44px}#posuci-integracion-actual .p-field input,#posuci-integracion-actual .p-field select,#posuci-integracion-actual .p-field textarea{font-size:16px}}
+/* Propuesta que conserva la identidad de los dos espacios existentes. */
+#posuci-integracion-actual{color-scheme:light;--p-bg:#f5f7f8;--p-surface:#fff;--p-ink:#1e2337;--p-muted:#626b7a;--p-line:#e5e8f0;--p-brand:#7c3aed;--p-onbrand:#fff;--p-tint:#f3edff;--p-gold:#9a3412;--p-goldbg:#fff7ed;--p-radius:22px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-size:15px}
+#posuci-integracion-actual .p-switch button[aria-pressed=true]{background:#7c3aed;color:#fff}#posuci-integracion-actual .p-toolbar .p-label{background:#f0e9ff;color:#6335a3}#posuci-integracion-actual .p-button{border-radius:999px;font-weight:700}#posuci-integracion-actual .p-button.primary{background:linear-gradient(135deg,#7c3aed,#ec4899);border:0;box-shadow:0 8px 18px -8px #7c3aed88;color:white}#posuci-integracion-actual .p-panel{box-shadow:0 8px 22px -16px #0f172a44;border-color:#eceef5}#posuci-integracion-actual .p-phone{max-width:none;border-radius:20px;border-color:#e6e4f0;background:linear-gradient(180deg,#eef2ff 0%,#f5f7f8 420px)}#posuci-integracion-actual .p-phonehead{padding:20px 24px;background:linear-gradient(135deg,#7c3aed,#0e7490);color:white;border:0;border-radius:0 0 24px 24px}#posuci-integracion-actual .p-phonehead .p-muted{color:#ffffffdc}#posuci-integracion-actual .p-phonehead .p-brandname{font-size:21px;font-weight:750;letter-spacing:-.4px}#posuci-integracion-actual .p-phonehead .p-avatar{background:#ffffff28;color:#fff}#posuci-integracion-actual .p-phonehead .p-label{color:white;background:#ffffff24}#posuci-integracion-actual .p-phonebody{padding:24px;min-height:500px}#posuci-integracion-actual .p-phone .p-panel{padding:20px}#posuci-integracion-actual .p-phone .p-button{min-height:40px}#posuci-integracion-actual .p-bottomnav{display:none}#posuci-integracion-actual h1{font-weight:750}#posuci-integracion-actual h2{font-weight:750}#posuci-integracion-actual h3{font-weight:700}#posuci-integracion-actual .p-portalnav{display:flex;gap:5px;flex-wrap:wrap;margin-top:18px}#posuci-integracion-actual .p-portalnav button{background:transparent;border:0;color:white;border-radius:999px;padding:8px 12px;font:inherit;font-size:13px;font-weight:650}#posuci-integracion-actual .p-portalnav button[aria-current=page]{background:#ffffff38}#posuci-integracion-actual .p-portalnav button:hover{background:#ffffff22}#posuci-integracion-actual .p-portalnav button:focus-visible{outline-color:white}#posuci-integracion-actual .x-hero{border-radius:28px;padding:24px;background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;box-shadow:0 12px 30px -12px #7c3aed88;display:flex;gap:20px;align-items:center;margin-bottom:20px}#posuci-integracion-actual .x-mascot{font-size:52px;line-height:1;flex-shrink:0}#posuci-integracion-actual .x-hero h1{font-size:28px;margin-bottom:9px}#posuci-integracion-actual .x-speech{padding:8px 12px;background:#ffffff25;border:1px solid #ffffff35;border-radius:16px;display:inline-block;font-weight:600;font-size:14px}#posuci-integracion-actual .x-hero .p-label{color:#292d40;background:#ffffffd9}#posuci-integracion-actual .x-xp{padding:16px 20px;background:white;border-radius:24px;box-shadow:0 8px 24px -14px #0f172a40;margin-bottom:23px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}#posuci-integracion-actual .x-level{width:52px;height:52px;display:grid;place-items:center;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,#f97316,#facc15);color:#7c2d12;font-size:22px;font-weight:850}#posuci-integracion-actual .x-xp .p-grow{min-width:150px}#posuci-integracion-actual .x-xp .p-track span{background:linear-gradient(90deg,#0ea5e9,#22c55e)}#posuci-integracion-actual .x-xpnum{font-size:22px;font-weight:800;text-align:center;line-height:1.2}#posuci-integracion-actual .x-streak{background:#fff7ed;color:#9a3412;border-radius:99px;padding:8px 12px;font-size:12px;font-weight:750}#posuci-integracion-actual .x-badges{display:flex;gap:8px;flex-wrap:wrap;width:100%}#posuci-integracion-actual .x-badges span{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:1px solid #fdba74;color:#9a3412;border-radius:99px;padding:4px 9px;font-size:12px;font-weight:650}#posuci-integracion-actual .x-sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:24px 0 14px}#posuci-integracion-actual .x-sectionhead h2{font-size:20px}#posuci-integracion-actual .x-daygrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}#posuci-integracion-actual .x-daygrid .p-panel{height:100%}#posuci-integracion-actual .x-daygrid .p-task{font-size:13px;gap:8px}#posuci-integracion-actual .x-daygrid .p-button{font-size:11px;padding:6px 9px;min-height:32px}#posuci-integracion-actual .x-daygrid .p-task input{accent-color:#7c3aed;width:18px;height:18px}#posuci-integracion-actual .x-daygrid .p-task small{font-size:11px}#posuci-integracion-actual .x-daygrid h3{margin-bottom:16px;font-size:16px}#posuci-integracion-actual .x-twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}#posuci-integracion-actual .x-modules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}#posuci-integracion-actual .x-module{text-align:left;font:inherit;border:1px solid #eceef5;background:white;border-radius:22px;padding:18px;color:#1e2337;box-shadow:0 6px 16px -12px #0f172a4d;display:flex;flex-direction:column;gap:7px}#posuci-integracion-actual .x-module:hover{box-shadow:0 12px 24px -14px #0f172a66}#posuci-integracion-actual .x-module strong{font-size:14px}#posuci-integracion-actual .x-module small{font-size:12px;color:#697180}#posuci-integracion-actual .x-module-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;color:white;font-size:25px;margin-bottom:5px}#posuci-integracion-actual .x-shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}#posuci-integracion-actual .x-topic{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #eceef5}#posuci-integracion-actual .x-topic:last-child{border-bottom:0}#posuci-integracion-actual .x-topic-icon{font-size:22px;width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:#f3edff}#posuci-integracion-actual .x-topic strong{font-size:13px}#posuci-integracion-actual .x-utility{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:0 24px 20px}#posuci-integracion-actual .x-utility .p-button{border:2px solid #7c3aed;color:#7c3aed}#posuci-integracion-actual .p-phone .p-note{font-size:12px}#posuci-integracion-actual .x-journey{display:grid;gap:14px}#posuci-integracion-actual .x-journey label{display:flex;gap:12px;align-items:center;padding:16px;background:#fff;border:1px solid #eceef5;border-radius:16px}#posuci-integracion-actual .x-journey input{accent-color:#7c3aed;width:20px;height:20px}#posuci-integracion-actual .x-portal-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}#posuci-integracion-actual .x-portal-tabs button{border:1px solid #ded2f5;padding:8px 14px;border-radius:99px;background:white;color:#693daf;font-size:13px;font-weight:700}#posuci-integracion-actual .x-portal-tabs button[aria-pressed=true]{background:#7c3aed;color:white}#posuci-integracion-actual .x-easy .p-phonebody{font-size:18px}#posuci-integracion-actual .x-easy .p-task{font-size:17px}#posuci-integracion-actual .x-easy .p-small,#posuci-integracion-actual .x-easy small{font-size:15px}
+#posuci-integracion-actual #p-team{--p-brand:#0f766e;--p-tint:#eaf5f3;--p-ink:#0d2340;--p-bg:#f4f6f9;--p-line:#dfe3e8;font-family:Montserrat,Segoe UI,sans-serif;border-radius:12px;background:radial-gradient(circle at 100% 0%,#5b7fb014,transparent 26rem),#f4f6f9}#posuci-integracion-actual #p-team .p-header{background:linear-gradient(90deg,#0d2340,#17375e);color:#fff;border:0;padding:16px 24px}#posuci-integracion-actual #p-team .p-muted,#posuci-integracion-actual #p-team .p-small{font-weight:400}#posuci-integracion-actual #p-team .p-header .p-muted{color:#ffffffc9}#posuci-integracion-actual #p-team .p-brandname{letter-spacing:2px;font-size:22px}#posuci-integracion-actual #p-team .p-layout{display:block}#posuci-integracion-actual #p-team .p-side{background:#17375e;padding:0 16px;border:0;border-bottom:3px solid #b8bec7}#posuci-integracion-actual #p-team .p-side nav{display:flex;flex-wrap:wrap;gap:3px}#posuci-integracion-actual #p-team .p-side button{width:auto;color:#ffffffe0;border-radius:8px 8px 0 0;font-family:inherit;font-size:11px;padding:12px 10px}#posuci-integracion-actual #p-team .p-side button[aria-current=page]{background:#ffffff1f;box-shadow:inset 0 -3px 0 #b8bec7}#posuci-integracion-actual #p-team .p-side .p-kicker,#posuci-integracion-actual #p-team .p-sidefoot{display:none}#posuci-integracion-actual #p-team .p-button{border-radius:8px;font-family:inherit;font-size:12px}#posuci-integracion-actual #p-team .p-button.primary{background:#0f766e;color:white;box-shadow:none}#posuci-integracion-actual #p-team .p-panel,#posuci-integracion-actual #p-team .p-stat{border-radius:12px;border-color:#dfe3e8;box-shadow:0 8px 24px #17375e0f}#posuci-integracion-actual #p-team h1{font-size:24px;letter-spacing:-.4px;font-weight:700}#posuci-integracion-actual #p-team h2{font-size:16px;font-weight:700}#posuci-integracion-actual .x-casehead{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;padding:18px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;margin:0 0 20px}#posuci-integracion-actual .x-casehead small{display:block;font-size:11px;letter-spacing:.7px;text-transform:uppercase;color:#64748b;margin-bottom:6px}#posuci-integracion-actual .x-casehead strong{font-size:12px;color:#17375e}#posuci-integracion-actual .x-programtabs{display:flex;gap:4px;flex-wrap:wrap;margin:0 0 22px;border-bottom:1px solid #dfe3e8}#posuci-integracion-actual .x-programtabs button{border:0;border-bottom:2px solid transparent;background:none;color:#61738a;font-family:inherit;font-size:11px;font-weight:600;padding:10px}#posuci-integracion-actual .x-programtabs button[aria-pressed=true]{color:#0f766e;border-bottom-color:#0f766e}#posuci-integracion-actual .x-recordtabs{display:flex;gap:5px;flex-wrap:wrap;background:#f2f4f7;padding:5px;border-radius:9px;margin-bottom:20px}#posuci-integracion-actual .x-recordtabs button{border:0;background:none;color:#536276;font-family:inherit;padding:9px 11px;font-size:11px;font-weight:600;border-radius:6px}#posuci-integracion-actual .x-recordtabs button[aria-pressed=true]{background:white;color:#0f766e;box-shadow:0 1px 3px #00000012}#posuci-integracion-actual .x-tablewrap{overflow-x:auto}#posuci-integracion-actual .x-table{width:100%;border-collapse:collapse;font-size:12px}#posuci-integracion-actual .x-table th{background:#f8fafc;color:#4b5c74;font-size:11px;font-weight:600;text-align:left;padding:13px 12px;border-bottom:1px solid #dfe3e8}#posuci-integracion-actual .x-table td{padding:14px 12px;border-bottom:1px solid #e8edf2;vertical-align:middle}#posuci-integracion-actual .x-table tr:last-child td{border-bottom:0}#posuci-integracion-actual .x-plan-columns{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px}#posuci-integracion-actual .x-integration{padding:26px;background:#f4f6f9;border-radius:20px;border:1px solid #dfe3e8}#posuci-integracion-actual .x-maprow{display:grid;grid-template-columns:1fr 24px 1fr 24px 1fr;align-items:stretch;gap:9px;margin-top:14px}#posuci-integracion-actual .x-mapcell{padding:16px;border:1px solid #e2e7ef;border-radius:15px;background:white;display:grid;gap:8px}#posuci-integracion-actual .x-mapcell small{color:#667085;font-size:12px}#posuci-integracion-actual .x-maparrow{align-self:center;text-align:center;color:#8b6bb6;font-size:21px}#posuci-integracion-actual .x-mapcell.clinical{border-top:4px solid #17375e}#posuci-integracion-actual .x-mapcell.portal{border-top:4px solid #7c3aed}#posuci-integracion-actual .x-mapcell.connector{border-top:4px solid #0e7490}#posuci-integracion-actual .x-integration h1{color:#17375e}#posuci-integracion-actual .p-cover{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white}#posuci-integracion-actual #p-team .p-cover{background:#edf2f8;color:#17375e}
+@media(max-width:850px){#posuci-integracion-actual .x-modules{grid-template-columns:repeat(3,minmax(0,1fr))}#posuci-integracion-actual .x-daygrid{grid-template-columns:1fr}#posuci-integracion-actual .x-plan-columns{grid-template-columns:1fr}}
+@media(max-width:600px){#posuci-integracion-actual .x-twocol,#posuci-integracion-actual .x-shelf{grid-template-columns:1fr}#posuci-integracion-actual .x-modules{grid-template-columns:repeat(2,minmax(0,1fr))}#posuci-integracion-actual .p-phonebody{padding:16px}#posuci-integracion-actual .p-phonehead{padding:18px 16px}#posuci-integracion-actual .p-phonehead .p-brandname{font-size:19px}#posuci-integracion-actual .x-hero{padding:20px 16px;gap:12px}#posuci-integracion-actual .x-mascot{font-size:36px}#posuci-integracion-actual .x-hero h1{font-size:24px}#posuci-integracion-actual .x-speech{font-size:12px}#posuci-integracion-actual .x-casehead{grid-template-columns:1fr 1fr}#posuci-integracion-actual .x-maprow{grid-template-columns:1fr}#posuci-integracion-actual .x-maparrow{transform:rotate(90deg)}#posuci-integracion-actual .x-integration{padding:18px}#posuci-integracion-actual .x-utility{padding:0 16px 16px}#posuci-integracion-actual .p-switch{flex-wrap:wrap}#posuci-integracion-actual .p-switch button{min-width:130px}}
+@media(min-width:960px){#posuci-integracion-actual #p-team{display:grid;grid-template-columns:170px minmax(0,1fr)}#posuci-integracion-actual #p-team .p-layout{display:contents}#posuci-integracion-actual #p-team .p-header{grid-column:1;grid-row:1;border-bottom:3px solid #b8bec7;padding:18px 20px}#posuci-integracion-actual #p-team .p-header .p-small,#posuci-integracion-actual #p-team .p-header .p-user{display:none}#posuci-integracion-actual #p-team .p-side{grid-column:2;grid-row:1;display:flex;align-items:center;padding:0 8px}#posuci-integracion-actual #p-team .p-side nav{flex-wrap:nowrap;gap:0}#posuci-integracion-actual #p-team .p-side button{padding:12px 8px;font-size:11px;white-space:nowrap}#posuci-integracion-actual #p-team .p-main{grid-column:1/-1;grid-row:2}#posuci-integracion-actual #p-team .p-demofooter{grid-column:1/-1;grid-row:3}}
+&lt;/style&gt;
+&lt;div id=&quot;posuci-integracion-actual&quot; aria-label=&quot;Propuesta de POSUCI 360&quot;&gt;
+  &lt;div class=&quot;p-toolbar&quot;&gt;
+    &lt;div class=&quot;p-switch&quot; aria-label=&quot;Vista de la propuesta&quot;&gt;
+      &lt;button type=&quot;button&quot; data-view=&quot;patient&quot; aria-pressed=&quot;true&quot;&gt;🏠 Portal POSUCI 360&lt;/button&gt;
+      &lt;button type=&quot;button&quot; data-view=&quot;team&quot; aria-pressed=&quot;false&quot;&gt;Panel clínico ÁGORA&lt;/button&gt;
+      &lt;button type=&quot;button&quot; data-view=&quot;map&quot; aria-pressed=&quot;false&quot;&gt;🧩 Cómo se integra&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;span class=&quot;p-label&quot;&gt;TU ESTILO ACTUAL · PROPUESTA DEMO&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;section id=&quot;p-team&quot; class=&quot;p-window&quot; aria-label=&quot;Panel clínico ÁGORA propuesto&quot; hidden&gt;
+    &lt;header class=&quot;p-header&quot;&gt;
+      &lt;div class=&quot;p-brand&quot;&gt;&lt;div&gt;&lt;div class=&quot;p-brandname&quot;&gt;ÁGORA&lt;/div&gt;&lt;div class=&quot;p-small p-muted&quot;&gt;Centros de Excelencia · Programa PICS&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;p-user&quot;&gt;&lt;div class=&quot;p-usertext p-small&quot;&gt;Coordinación&lt;br&gt;&lt;span class=&quot;p-muted&quot;&gt;Programa POSUCI&lt;/span&gt;&lt;/div&gt;&lt;span class=&quot;p-avatar&quot;&gt;EQ&lt;/span&gt;&lt;/div&gt;
+    &lt;/header&gt;
+    &lt;div class=&quot;p-layout&quot;&gt;
+      &lt;aside class=&quot;p-side&quot;&gt;&lt;div class=&quot;p-kicker&quot;&gt;Gestión del programa&lt;/div&gt;&lt;nav aria-label=&quot;Panel del equipo&quot;&gt;
+        &lt;button type=&quot;button&quot; data-page=&quot;overview&quot;&gt;Vista general&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-page=&quot;people&quot; aria-current=&quot;page&quot;&gt;Programa PICS&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-page=&quot;governance&quot;&gt;Gobierno clínico&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-page=&quot;quality&quot;&gt;Calidad y mejora&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-page=&quot;reports&quot;&gt;Indicadores&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-page=&quot;dictionary&quot;&gt;Ficha técnica de indicadores&lt;/button&gt;
+      &lt;/nav&gt;&lt;div class=&quot;p-sidefoot&quot;&gt;&lt;div class=&quot;p-kicker&quot;&gt;Una experiencia conectada&lt;/div&gt;&lt;div class=&quot;p-small p-muted&quot;&gt;Plan del equipo&lt;br&gt;↓&lt;br&gt;Actividades del paciente&lt;br&gt;↓&lt;br&gt;Seguimiento compartido&lt;/div&gt;&lt;/div&gt;&lt;/aside&gt;
+      &lt;main class=&quot;p-main&quot; id=&quot;p-main&quot;&gt;&lt;div class=&quot;p-title&quot;&gt;&lt;div&gt;&lt;h1&gt;El cuidado, en un solo lugar.&lt;/h1&gt;&lt;p&gt;Pacientes, planes y acompañamiento.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/main&gt;
+    &lt;/div&gt;
+    &lt;footer class=&quot;p-demofooter&quot;&gt;Simulación interactiva · Personas y registros ficticios · Sin conexión con la aplicación&lt;/footer&gt;
+  &lt;/section&gt;
+  &lt;section id=&quot;p-patient&quot; aria-label=&quot;Portal del paciente con su estilo actual&quot;&gt;
+    &lt;div class=&quot;p-phone&quot;&gt;
+      &lt;header class=&quot;p-phonehead&quot;&gt;&lt;div class=&quot;p-flex p-between&quot;&gt;&lt;div&gt;&lt;div class=&quot;p-brandname&quot;&gt;POSUCI 360 Conecta&lt;/div&gt;&lt;div class=&quot;p-small p-muted&quot;&gt;Mi recuperación · Paciente de ejemplo&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;p-flex&quot;&gt;&lt;span class=&quot;p-avatar&quot; id=&quot;p-patient-avatar&quot;&gt;AN&lt;/span&gt;&lt;button type=&quot;button&quot; class=&quot;p-button&quot; data-mobile=&quot;profile&quot;&gt;⚙️ Ajustes&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;&lt;nav class=&quot;p-portalnav&quot; aria-label=&quot;Navegación del portal&quot;&gt;&lt;button type=&quot;button&quot; data-mobile=&quot;home&quot; aria-current=&quot;page&quot;&gt;🏠 Mi recuperación&lt;/button&gt;&lt;button type=&quot;button&quot; data-mobile=&quot;calendar&quot;&gt;📅 Mi calendario&lt;/button&gt;&lt;button type=&quot;button&quot; data-mobile=&quot;plan&quot;&gt;🎯 Mis metas&lt;/button&gt;&lt;button type=&quot;button&quot; data-mobile=&quot;education&quot;&gt;📚 Educación&lt;/button&gt;&lt;button type=&quot;button&quot; data-mobile=&quot;progress&quot;&gt;📈 Mi progreso&lt;/button&gt;&lt;button type=&quot;button&quot; data-mobile=&quot;modules&quot;&gt;🗺️ Módulos&lt;/button&gt;&lt;/nav&gt;&lt;/header&gt;
+      &lt;div class=&quot;p-phonebody&quot; id=&quot;p-patient-body&quot;&gt;&lt;/div&gt;
+      &lt;nav class=&quot;p-bottomnav&quot; aria-label=&quot;Portal del paciente&quot;&gt;
+        &lt;button type=&quot;button&quot; data-mobile=&quot;home&quot; aria-current=&quot;page&quot;&gt;&lt;i data-lucide=&quot;house&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;Inicio&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-mobile=&quot;plan&quot;&gt;&lt;i data-lucide=&quot;clipboard-list&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;Mi plan&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-mobile=&quot;progress&quot;&gt;&lt;i data-lucide=&quot;chart-no-axes-combined&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;Progreso&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-mobile=&quot;team&quot;&gt;&lt;i data-lucide=&quot;messages-square&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;Mi equipo&lt;/button&gt;
+        &lt;button type=&quot;button&quot; data-mobile=&quot;profile&quot;&gt;&lt;i data-lucide=&quot;user-round&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;Perfil&lt;/button&gt;
+      &lt;/nav&gt;&lt;div class=&quot;x-utility&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;p-button&quot; data-mobile=&quot;modules&quot;&gt;🗺️ Módulos&lt;/button&gt;&lt;button type=&quot;button&quot; class=&quot;p-button&quot; data-action=&quot;easy-mode&quot;&gt;🔎 Modo fácil&lt;/button&gt;&lt;/div&gt;&lt;footer class=&quot;p-demofooter&quot;&gt;Propuesta visual · Datos ficticios · Los cambios solo viven en esta demo&lt;/footer&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section id=&quot;p-map&quot; class=&quot;x-integration&quot; hidden aria-label=&quot;Mapa de integración al proyecto&quot;&gt;&lt;/section&gt;
+  &lt;div class=&quot;p-status&quot; id=&quot;p-status&quot; role=&quot;status&quot; aria-live=&quot;polite&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+(function(){
+  const root=document.getElementById(&#x27;posuci-integracion-actual&#x27;);
+  const main=root.querySelector(&#x27;#p-main&#x27;);
+  const mobile=root.querySelector(&#x27;#p-patient-body&#x27;);
+  const status=root.querySelector(&#x27;#p-status&#x27;);
+  const patients=[
+    {id:&#x27;ana&#x27;,name:&#x27;Ana&#x27;,initials:&#x27;AN&#x27;,stage:&#x27;Seguimiento en casa&#x27;,mood:&#x27;Bien&#x27;,tasks:[{id:&#x27;a1&#x27;,wellbeing:true,title:&#x27;Registrar cómo me siento&#x27;,type:&#x27;Bienestar&#x27;,done:true},{id:&#x27;a2&#x27;,title:&#x27;Conocer mi plan de recuperación&#x27;,type:&#x27;Educación · Guía&#x27;,done:true},{id:&#x27;a3&#x27;,title:&#x27;Revisar mi calendario&#x27;,type:&#x27;Acompañamiento&#x27;,done:false}]},
+    {id:&#x27;bruno&#x27;,name:&#x27;Bruno&#x27;,initials:&#x27;BR&#x27;,stage:&#x27;Plan por revisar&#x27;,mood:&#x27;Regular&#x27;,tasks:[{id:&#x27;b1&#x27;,wellbeing:true,title:&#x27;Registrar cómo me siento&#x27;,type:&#x27;Bienestar&#x27;,done:true},{id:&#x27;b2&#x27;,title:&#x27;Revisar mi calendario&#x27;,type:&#x27;Acompañamiento&#x27;,done:false}]},
+    {id:&#x27;carla&#x27;,name:&#x27;Carla&#x27;,initials:&#x27;CA&#x27;,stage:&#x27;Seguimiento en casa&#x27;,mood:&#x27;&#x27;,tasks:[{id:&#x27;c1&#x27;,wellbeing:true,title:&#x27;Registrar cómo me siento&#x27;,type:&#x27;Bienestar&#x27;,done:false},{id:&#x27;c2&#x27;,title:&#x27;Conocer mi plan de recuperación&#x27;,type:&#x27;Educación · Guía&#x27;,done:false}]}
+  ];
+  const materials=[
+    {id:&#x27;m0&#x27;,title:&#x27;Conoce tu plan de recuperación&#x27;,category:&#x27;Educación&#x27;,type:&#x27;Guía&#x27;,time:&#x27;3 min&#x27;,icon:&#x27;book-open&#x27;,summary:&#x27;Reconoce las actividades de tu plan, consulta tus citas y anota las preguntas que quieras compartir con el equipo.&#x27;},
+    {id:&#x27;m1&#x27;,title:&#x27;Prepara tu próxima consulta&#x27;,category:&#x27;Educación&#x27;,type:&#x27;Guía&#x27;,time:&#x27;4 min&#x27;,icon:&#x27;notebook-pen&#x27;,summary:&#x27;Un espacio para organizar dudas, cambios y temas que quieres conversar con tu equipo.&#x27;},
+    {id:&#x27;m2&#x27;,title:&#x27;Reconoce cómo te sientes&#x27;,category:&#x27;Bienestar&#x27;,type:&#x27;Registro guiado&#x27;,time:&#x27;2 min&#x27;,icon:&#x27;heart&#x27;,summary:&#x27;Una actividad para registrar tu experiencia del día y compartirla con tu equipo.&#x27;},
+    {id:&#x27;m3&#x27;,title:&#x27;Movilidad: guía de tu equipo&#x27;,category:&#x27;Actividad&#x27;,type:&#x27;Guía&#x27;,time:&#x27;Según tu plan&#x27;,icon:&#x27;accessibility&#x27;,summary:&#x27;Material que el profesional adapta al plan individual antes de asignarlo.&#x27;},
+    {id:&#x27;m4&#x27;,title:&#x27;Cuidar también es acompañar&#x27;,category:&#x27;Educación&#x27;,type:&#x27;Guía para el cuidador&#x27;,time:&#x27;5 min&#x27;,icon:&#x27;hand-heart&#x27;,summary:&#x27;Temas para conversar sobre acompañamiento, organización y apoyo en casa.&#x27;},
+    {id:&#x27;m5&#x27;,title:&#x27;Mi alimentación en casa&#x27;,category:&#x27;Nutrición&#x27;,type:&#x27;Guía&#x27;,time:&#x27;4 min&#x27;,icon:&#x27;utensils&#x27;,summary:&#x27;Organiza las recomendaciones que tu equipo haya incluido en tu plan de alimentación.&#x27;},
+    {id:&#x27;m6&#x27;,title:&#x27;Mi rutina de descanso&#x27;,category:&#x27;Sueño&#x27;,type:&#x27;Diario guiado&#x27;,time:&#x27;3 min&#x27;,icon:&#x27;moon&#x27;,summary:&#x27;Anota cómo has descansado y qué temas deseas revisar durante tu próximo seguimiento.&#x27;},
+    {id:&#x27;m7&#x27;,title:&#x27;Una pausa para mi bienestar&#x27;,category:&#x27;Bienestar&#x27;,type:&#x27;Audio propuesto&#x27;,time:&#x27;Según tu plan&#x27;,icon:&#x27;headphones&#x27;,summary:&#x27;Un espacio de acompañamiento con contenido seleccionado por el equipo. Esta muestra no incluye audio.&#x27;},
+    {id:&#x27;m8&#x27;,title:&#x27;Organizo mi día paso a paso&#x27;,category:&#x27;Cognitivo&#x27;,type:&#x27;Guía&#x27;,time:&#x27;4 min&#x27;,icon:&#x27;brain&#x27;,summary:&#x27;Reúne tus recordatorios, actividades y citas en un solo lugar para conversar sobre ellos con tu cuidador o equipo.&#x27;}
+  ];
+  const appointments=[{id:&#x27;v1&#x27;,person:&#x27;ana&#x27;,date:&#x27;2026-09-22&#x27;,time:&#x27;10:00&#x27;,title:&#x27;Seguimiento con tu equipo&#x27;,status:&#x27;Confirmada&#x27;},{id:&#x27;v2&#x27;,person:&#x27;bruno&#x27;,date:&#x27;2026-09-23&#x27;,time:&#x27;15:30&#x27;,title:&#x27;Revisión del plan&#x27;,status:&#x27;Por confirmar&#x27;}];
+  const state={view:&#x27;patient&#x27;,page:&#x27;people&#x27;,mobile:&#x27;home&#x27;,person:&#x27;ana&#x27;,detail:true,filter:&#x27;Todos&#x27;,material:null,reading:null,editing:null,recordTab:&#x27;Actividades del paciente&#x27;,topic:&#x27;Todos&#x27;,module:&#x27;diary&#x27;,easy:false};
+  const design={dailyFirst:false,compact:false};
+  patients.forEach(function(p){p.tasks.forEach(function(t,i){t.period=i===0?&#x27;Mañana&#x27;:i===1?&#x27;Tarde&#x27;:&#x27;Noche&#x27;;});});
+  patients[0].tasks[1].material=&#x27;m0&#x27;;
+  let serial=0;
+  function esc(value){return String(value).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g,function(c){return {&#x27;&amp;&#x27;:&#x27;&amp;amp;&#x27;,&#x27;&lt;&#x27;:&#x27;&amp;lt;&#x27;,&#x27;&gt;&#x27;:&#x27;&amp;gt;&#x27;,&#x27;&quot;&#x27;:&#x27;&amp;quot;&#x27;,&quot;&#x27;&quot;:&#x27;&amp;#39;&#x27;}[c];});}
+  function icon(name){return &#x27;&lt;i data-lucide=&quot;&#x27;+name+&#x27;&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;&#x27;;}
+  function current(){return patients.find(function(p){return p.id===state.person;});}
+  function count(p){return p.tasks.filter(function(t){return t.done;}).length;}
+  function button(label,action,extra,primary){return &#x27;&lt;button type=&quot;button&quot; class=&quot;p-button&#x27;+(primary?&#x27; primary&#x27;:&#x27;&#x27;)+&#x27;&quot; data-action=&quot;&#x27;+action+&#x27;&quot; &#x27;+(extra||&#x27;&#x27;)+&#x27;&gt;&#x27;+label+&#x27;&lt;/button&gt;&#x27;;}
+  function badge(label,tone){return &#x27;&lt;span class=&quot;p-label &#x27;+(tone||&#x27;&#x27;)+&#x27;&quot;&gt;&#x27;+label+&#x27;&lt;/span&gt;&#x27;;}
+  function track(value,total,label){const percent=total?Math.round(value/total*100):0;return &#x27;&lt;div class=&quot;p-track&quot; role=&quot;progressbar&quot; aria-label=&quot;&#x27;+esc(label)+&#x27;&quot; aria-valuenow=&quot;&#x27;+percent+&#x27;&quot; aria-valuemin=&quot;0&quot; aria-valuemax=&quot;100&quot;&gt;&lt;span style=&quot;width:&#x27;+percent+&#x27;%&quot;&gt;&lt;/span&gt;&lt;/div&gt;&#x27;;}
+  function title(heading,sub,action){return &#x27;&lt;div class=&quot;p-title&quot;&gt;&lt;div&gt;&lt;h1&gt;&#x27;+heading+&#x27;&lt;/h1&gt;&lt;p&gt;&#x27;+sub+&#x27;&lt;/p&gt;&lt;/div&gt;&#x27;+(action||&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;}
+  function announce(message){status.textContent=message;}
+  function shortDate(value){return new Intl.DateTimeFormat(&#x27;es-CO&#x27;,{day:&#x27;numeric&#x27;,month:&#x27;short&#x27;}).format(new Date(value+&#x27;T12:00:00&#x27;));}
+  function totalDone(){return patients.reduce(function(n,p){return n+count(p);},0);}
+  function totalTasks(){return patients.reduce(function(n,p){return n+p.tasks.length;},0);}
+  function stat(label,value,detail){return &#x27;&lt;div class=&quot;p-stat&quot;&gt;&lt;span&gt;&#x27;+label+&#x27;&lt;/span&gt;&lt;strong&gt;&#x27;+value+&#x27;&lt;/strong&gt;&lt;span&gt;&#x27;+detail+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;;}
+  function appointmentRow(a,action){const month=new Intl.DateTimeFormat(&#x27;es-CO&#x27;,{month:&#x27;short&#x27;}).format(new Date(a.date+&#x27;T12:00:00&#x27;));return &#x27;&lt;div class=&quot;p-row&quot;&gt;&lt;span class=&quot;p-date&quot;&gt;&lt;strong&gt;&#x27;+a.date.slice(-2)+&#x27;&lt;/strong&gt;&#x27;+month+&#x27;&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;&#x27;+esc(a.title)+&#x27;&lt;/h3&gt;&lt;p&gt;&#x27;+esc(patients.find(function(p){return p.id===a.person;}).name)+&#x27; · &#x27;+a.time+&#x27;&lt;/p&gt;&lt;/div&gt;&#x27;+(action?button(&#x27;Gestionar&#x27;,&#x27;appointment&#x27;,&#x27;data-id=&quot;&#x27;+a.id+&#x27;&quot;&#x27;):badge(a.status,a.status===&#x27;Confirmada&#x27;?&#x27;good&#x27;:&#x27;pending&#x27;))+&#x27;&lt;/div&gt;&#x27;;}
+  function overview(){return title(&#x27;El cuidado, en un solo lugar.&#x27;,&#x27;Una vista clara de lo que necesita atención hoy.&#x27;,badge(&#x27;19 sep 2026 · Demo&#x27;))+
+    &#x27;&lt;div class=&quot;p-stats&quot;&gt;&#x27;+stat(&#x27;Personas en seguimiento&#x27;,patients.length,&#x27;Pacientes de ejemplo&#x27;)+stat(&#x27;Plan de hoy&#x27;,totalDone()+&#x27; / &#x27;+totalTasks(),&#x27;Actividades registradas&#x27;)+stat(&#x27;Próximas citas&#x27;,appointments.length,&#x27;Agenda del equipo&#x27;)+&#x27;&lt;/div&gt;&#x27;+
+    &#x27;&lt;div class=&quot;p-columns&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;Continuar el acompañamiento&lt;/h2&gt;&#x27;+badge(&#x27;Hoy&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;span class=&quot;p-avatar&quot;&gt;AN&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;Plan de Ana&lt;/h3&gt;&lt;p&gt;&#x27;+count(patients[0])+&#x27; de &#x27;+patients[0].tasks.length+&#x27; actividades registradas&lt;/p&gt;&lt;/div&gt;&#x27;+button(&#x27;Ver plan&#x27;,&#x27;person&#x27;,&#x27;data-id=&quot;ana&quot;&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;span class=&quot;p-avatar&quot;&gt;BR&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;Revisión de Bruno&lt;/h3&gt;&lt;p&gt;Plan pendiente de revisión del equipo&lt;/p&gt;&lt;/div&gt;&#x27;+button(&#x27;Revisar&#x27;,&#x27;person&#x27;,&#x27;data-id=&quot;bruno&quot;&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;span class=&quot;p-icon&quot;&gt;&#x27;+icon(&#x27;book-open&#x27;)+&#x27;&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;Contenido para acompañar&lt;/h3&gt;&lt;p&gt;Guías y actividades del programa&lt;/p&gt;&lt;/div&gt;&#x27;+button(&#x27;Explorar&#x27;,&#x27;library&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;En la agenda&lt;/h2&gt;&#x27;+icon(&#x27;calendar-days&#x27;)+&#x27;&lt;/div&gt;&#x27;+appointments.map(function(a){return appointmentRow(a,false);}).join(&#x27;&#x27;)+&#x27;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+button(&#x27;Abrir agenda &#x27;+icon(&#x27;arrow-right&#x27;),&#x27;agenda&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&lt;/div&gt;&#x27;+
+    &#x27;&lt;section class=&quot;p-panel p-topspace&quot;&gt;&lt;div class=&quot;p-flex p-between&quot;&gt;&lt;div&gt;&lt;h2&gt;Del plan a la experiencia del paciente&lt;/h2&gt;&lt;p class=&quot;p-small p-muted&quot;&gt;Selecciona a Ana, asigna una guía y revisa cómo aparece en su día.&lt;/p&gt;&lt;/div&gt;&#x27;+button(&#x27;Explorar el recorrido &#x27;+icon(&#x27;arrow-right&#x27;),&#x27;person&#x27;,&#x27;data-id=&quot;ana&quot;&#x27;,true)+&#x27;&lt;/div&gt;&lt;/section&gt;&#x27;;}
+  function people(){if(state.detail)return personDetail();return title(&#x27;Pacientes y planes&#x27;,&#x27;Cada persona, un plan y un equipo que acompaña.&#x27;)+&#x27;&lt;section class=&quot;p-panel&quot;&gt;&#x27;+patients.map(function(p){return &#x27;&lt;div class=&quot;p-person&quot;&gt;&lt;div class=&quot;p-flex p-grow&quot;&gt;&lt;span class=&quot;p-avatar&quot;&gt;&#x27;+p.initials+&#x27;&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;&#x27;+p.name+&#x27; &#x27;+badge(&#x27;Demo&#x27;)+&#x27;&lt;/h3&gt;&lt;div class=&quot;p-small p-muted&quot;&gt;&#x27;+p.stage+&#x27; · &#x27;+count(p)+&#x27; / &#x27;+p.tasks.length+&#x27; actividades hoy&lt;/div&gt;&#x27;+track(count(p),p.tasks.length,&#x27;Actividades de &#x27;+p.name)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;+button(&#x27;Abrir plan &#x27;+icon(&#x27;arrow-up-right&#x27;),&#x27;person&#x27;,&#x27;data-id=&quot;&#x27;+p.id+&#x27;&quot;&#x27;)+&#x27;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/section&gt;&#x27;;}
+  function legacyPersonDetail(){const p=current();return &#x27;&lt;div class=&quot;p-flow&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;p-button quiet&quot; data-action=&quot;people&quot;&gt;&#x27;+icon(&#x27;arrow-left&#x27;)+&#x27; Pacientes&lt;/button&gt;&lt;span&gt;/&lt;/span&gt;&lt;strong&gt;Plan de &#x27;+p.name+&#x27;&lt;/strong&gt;&lt;/div&gt;&#x27;+title(&#x27;El plan de &#x27;+p.name,p.stage+&#x27; · Perfil de ejemplo&#x27;,button(&#x27;Ver como paciente &#x27;+icon(&#x27;smartphone&#x27;),&#x27;preview&#x27;,null,true))+
+    &#x27;&lt;div class=&quot;p-columns&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;Actividades de hoy&lt;/h2&gt;&#x27;+badge(count(p)+&#x27; / &#x27;+p.tasks.length,&#x27;good&#x27;)+&#x27;&lt;/div&gt;&#x27;+p.tasks.map(function(t){return &#x27;&lt;div class=&quot;p-row&quot;&gt;&lt;span class=&quot;p-icon&quot;&gt;&#x27;+icon(t.done?&#x27;circle-check&#x27;:&#x27;circle&#x27;)+&#x27;&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;&#x27;+esc(t.title)+&#x27;&lt;/h3&gt;&lt;p&gt;&#x27;+esc(t.type)+&#x27;&lt;/p&gt;&lt;/div&gt;&#x27;+badge(t.done?&#x27;Registrada&#x27;:&#x27;Pendiente&#x27;,t.done?&#x27;good&#x27;:&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+button(&#x27;Añadir desde la biblioteca &#x27;+icon(&#x27;plus&#x27;),&#x27;library&#x27;,null,true)+&#x27;&lt;/div&gt;&lt;/section&gt;&lt;div class=&quot;p-stack&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Seguimiento del plan&lt;/h2&gt;&lt;p class=&quot;p-small p-muted p-topspace&quot;&gt;&#x27;+count(p)+&#x27; de &#x27;+p.tasks.length+&#x27; actividades registradas por &#x27;+p.name+&#x27;.&lt;/p&gt;&#x27;+track(count(p),p.tasks.length,&#x27;Realización del plan&#x27;)+&#x27;&lt;p class=&quot;p-note&quot;&gt;Realización de actividades; no representa recuperación clínica.&lt;/p&gt;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Lo que reporta &#x27;+p.name+&#x27;&lt;/h2&gt;&lt;p class=&quot;p-small p-muted p-topspace&quot;&gt;&#x27;+(p.mood?&#x27;Bienestar de hoy: &#x27;+esc(p.mood):&#x27;Sin registro de bienestar en esta demostración.&#x27;)+&#x27;&lt;/p&gt;&lt;/section&gt;&#x27;+(p.message?&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Consulta de &#x27;+p.name+&#x27;&lt;/h2&gt;&lt;p class=&quot;p-topspace&quot; style=&quot;overflow-wrap:anywhere&quot;&gt;&#x27;+esc(p.message)+&#x27;&lt;/p&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+(p.reviewed?badge(&#x27;Revisada en la demo&#x27;,&#x27;good&#x27;):button(&#x27;Marcar revisada&#x27;,&#x27;review-message&#x27;,null,true))+&#x27;&lt;/div&gt;&lt;/section&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;}
+  function library(){const list=materials.filter(function(m){return state.filter===&#x27;Todos&#x27;||m.category===state.filter;});return title(&#x27;Educación personalizada&#x27;,&#x27;Biblioteca y asignaciones del Programa PICS.&#x27;)+
+    &#x27;&lt;div class=&quot;p-flex p-between&quot; style=&quot;margin-bottom:18px&quot;&gt;&lt;div class=&quot;p-filter&quot; style=&quot;margin:0&quot;&gt;&#x27;+[&#x27;Todos&#x27;,&#x27;Educación&#x27;,&#x27;Bienestar&#x27;,&#x27;Actividad&#x27;,&#x27;Nutrición&#x27;,&#x27;Sueño&#x27;,&#x27;Cognitivo&#x27;].map(function(f){return &#x27;&lt;button type=&quot;button&quot; data-action=&quot;filter&quot; data-value=&quot;&#x27;+f+&#x27;&quot; aria-pressed=&quot;&#x27;+(state.filter===f)+&#x27;&quot;&gt;&#x27;+f+&#x27;&lt;/button&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;label class=&quot;p-field&quot;&gt;Asignar a&lt;select id=&quot;p-library-person&quot;&gt;&#x27;+patients.map(function(p){return &#x27;&lt;option value=&quot;&#x27;+p.id+&#x27;&quot;&#x27;+(p.id===state.person?&#x27; selected&#x27;:&#x27;&#x27;)+&#x27;&gt;&#x27;+p.name+&#x27; · Demo&lt;/option&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/select&gt;&lt;/label&gt;&lt;/div&gt;&#x27;+
+    &#x27;&lt;div class=&quot;p-library&quot;&gt;&#x27;+list.map(function(m){const exists=current().tasks.some(function(t){return t.material===m.id;});return &#x27;&lt;article class=&quot;p-material&quot;&gt;&lt;div class=&quot;p-cover&quot;&gt;&#x27;+icon(m.icon)+badge(m.type)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-materialbody&quot;&gt;&lt;div class=&quot;p-small p-muted&quot;&gt;&#x27;+m.category+&#x27; · &#x27;+m.time+&#x27;&lt;/div&gt;&lt;h2&gt;&#x27;+m.title+&#x27;&lt;/h2&gt;&lt;p&gt;&#x27;+m.summary+&#x27;&lt;/p&gt;&lt;div class=&quot;p-flex p-between&quot;&gt;&lt;button type=&quot;button&quot; class=&quot;p-button quiet&quot; data-action=&quot;material&quot; data-id=&quot;&#x27;+m.id+&#x27;&quot;&gt;Ver ficha&lt;/button&gt;&#x27;+button(exists?&#x27;Añadida &#x27;+icon(&#x27;check&#x27;):&#x27;Asignar &#x27;+icon(&#x27;plus&#x27;),&#x27;assign&#x27;,&#x27;data-id=&quot;&#x27;+m.id+&#x27;&quot;&#x27;+(exists?&#x27; disabled&#x27;:&#x27;&#x27;),!exists)+&#x27;&lt;/div&gt;&lt;/div&gt;&lt;/article&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;+
+    (state.material?&#x27;&lt;section class=&quot;p-panel p-detail&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;&#x27;+materials.find(function(m){return m.id===state.material;}).title+&#x27;&lt;/h2&gt;&#x27;+button(&#x27;Cerrar&#x27;,&#x27;close-material&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-small p-muted&quot;&gt;Ficha de ejemplo · Revisión: equipo POSUCI · Destino: plan individual&lt;/div&gt;&lt;p class=&quot;p-topspace&quot;&gt;&#x27;+materials.find(function(m){return m.id===state.material;}).summary+&#x27;&lt;/p&gt;&lt;p class=&quot;p-note&quot;&gt;La biblioteca puede alojar guías, videos y audios. Esta muestra no contiene material clínico ni reproductores conectados.&lt;/p&gt;&lt;/section&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;div class=&quot;p-flex p-between p-topspace&quot;&gt;&lt;span class=&quot;p-small p-muted&quot;&gt;Destino actual: plan de &#x27;+current().name+&#x27;&lt;/span&gt;&#x27;+button(&#x27;Ver como paciente &#x27;+icon(&#x27;arrow-right&#x27;),&#x27;preview&#x27;)+&#x27;&lt;/div&gt;&#x27;;}
+  function agenda(){return title(&#x27;Agenda coordinada&#x27;,&#x27;Citas y seguimiento del Programa PICS.&#x27;)+&#x27;&lt;section class=&quot;p-panel&quot;&gt;&#x27;+appointments.map(function(a){return appointmentRow(a,true);}).join(&#x27;&#x27;)+&#x27;&lt;/section&gt;&#x27;+(state.editing?appointmentEditor():&#x27;&#x27;)+&#x27;&lt;p class=&quot;p-note&quot;&gt;Videollamadas: ampliación dentro de la agenda. La demostración permite cambiar fecha y hora, sin enviar avisos.&lt;/p&gt;&#x27;;}
+  function appointmentEditor(){const a=appointments.find(function(item){return item.id===state.editing;});return &#x27;&lt;form id=&quot;p-appointment-form&quot; class=&quot;p-panel p-topspace&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;Actualizar cita de &#x27;+patients.find(function(p){return p.id===a.person;}).name+&#x27;&lt;/h2&gt;&#x27;+button(&#x27;Cerrar&#x27;,&#x27;close-appointment&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-formrow&quot;&gt;&lt;label class=&quot;p-field&quot;&gt;Fecha&lt;input type=&quot;date&quot; name=&quot;date&quot; value=&quot;&#x27;+a.date+&#x27;&quot; required&gt;&lt;/label&gt;&lt;label class=&quot;p-field&quot;&gt;Hora&lt;input type=&quot;time&quot; name=&quot;time&quot; value=&quot;&#x27;+a.time+&#x27;&quot; required&gt;&lt;/label&gt;&lt;/div&gt;&lt;div class=&quot;p-topspace&quot;&gt;&lt;button type=&quot;submit&quot; class=&quot;p-button primary&quot;&gt;Guardar en la demo&lt;/button&gt;&lt;/div&gt;&lt;/form&gt;&#x27;;}
+  function reports(){return title(&#x27;Seguimiento compartido&#x27;,&#x27;Participación y registros de bienestar, en apartados separados.&#x27;)+&#x27;&lt;div class=&quot;p-stats&quot;&gt;&#x27;+stat(&#x27;Plan registrado&#x27;,totalDone()+&#x27; / &#x27;+totalTasks(),&#x27;Actividades de hoy&#x27;)+stat(&#x27;Participantes&#x27;,patients.filter(function(p){return count(p)&gt;0;}).length+&#x27; / &#x27;+patients.length,&#x27;Con algún registro&#x27;)+stat(&#x27;Bienestar reportado&#x27;,patients.filter(function(p){return !!p.mood;}).length,&#x27;Respuestas en esta demo&#x27;)+&#x27;&lt;/div&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;Realización del plan de hoy&lt;/h2&gt;&#x27;+badge(&#x27;Datos de ejemplo&#x27;)+&#x27;&lt;/div&gt;&#x27;+patients.map(function(p){return &#x27;&lt;div class=&quot;p-reportrow&quot;&gt;&lt;span&gt;&#x27;+p.name+&#x27;&lt;/span&gt;&#x27;+track(count(p),p.tasks.length,&#x27;Plan de &#x27;+p.name)+&#x27;&lt;span class=&quot;p-small&quot;&gt;&#x27;+count(p)+&#x27; / &#x27;+p.tasks.length+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;p class=&quot;p-note&quot;&gt;Cada proporción compara actividades registradas con actividades asignadas. No se calcula un índice global de salud.&lt;/p&gt;&lt;/section&gt;&lt;section class=&quot;p-panel p-topspace&quot;&gt;&lt;h2&gt;Registro expresado por la persona&lt;/h2&gt;&#x27;+patients.map(function(p){return &#x27;&lt;div class=&quot;p-row&quot;&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;&#x27;+p.name+&#x27;&lt;/h3&gt;&lt;/div&gt;&lt;span class=&quot;p-small p-muted&quot;&gt;&#x27;+(p.mood?esc(p.mood):&#x27;Sin respuesta&#x27;)+&#x27;&lt;/span&gt;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/section&gt;&#x27;;}
+  function taskList(p){return p.tasks.map(function(t){return &#x27;&lt;div class=&quot;p-task&#x27;+(t.done?&#x27; done&#x27;:&#x27;&#x27;)+&#x27;&quot;&gt;&lt;label style=&quot;display:flex;gap:11px;align-items:center;flex:1;min-width:0;cursor:pointer&quot;&gt;&lt;input type=&quot;checkbox&quot; data-task=&quot;&#x27;+t.id+&#x27;&quot; &#x27;+(t.done?&#x27;checked&#x27;:&#x27;&#x27;)+&#x27;&gt;&lt;span class=&quot;p-grow&quot;&gt;&lt;span class=&quot;p-taskname&quot;&gt;&#x27;+esc(t.title)+&#x27;&lt;/span&gt;&lt;small&gt;&#x27;+esc(t.type)+&#x27;&lt;/small&gt;&lt;/span&gt;&lt;/label&gt;&#x27;+(t.material?button(&#x27;Abrir&#x27;,&#x27;read-material&#x27;,&#x27;data-id=&quot;&#x27;+t.material+&#x27;&quot;&#x27;):&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;);}
+  function mobileMaterial(){if(!state.reading)return &#x27;&#x27;;const m=materials.find(function(item){return item.id===state.reading;});const task=current().tasks.find(function(t){return t.material===m.id;});return &#x27;&lt;div class=&quot;p-title&quot;&gt;&lt;div&gt;&lt;h1&gt;📚 &#x27;+m.title+&#x27;&lt;/h1&gt;&lt;p&gt;&#x27;+m.category+&#x27; · &#x27;+m.time+&#x27;&lt;/p&gt;&lt;/div&gt;&#x27;+button(&#x27;← Volver&#x27;,&#x27;close-reading&#x27;)+&#x27;&lt;/div&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&#x27;+badge(&#x27;Contenido de ejemplo&#x27;)+badge(m.type)+&#x27;&lt;/div&gt;&lt;p&gt;&#x27;+m.summary+&#x27;&lt;/p&gt;&lt;p class=&quot;p-note&quot;&gt;La versión final incluiría aquí la guía, el video o el audio aprobado por el equipo.&lt;/p&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+(task&amp;&amp;task.done?badge(&#x27;✅ Contenido revisado&#x27;,&#x27;good&#x27;):task?button(&#x27;✅ Marcar contenido revisado&#x27;,&#x27;complete-material&#x27;,&#x27;data-id=&quot;&#x27;+m.id+&#x27;&quot;&#x27;,true):&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&#x27;;}
+  function legacyMobileHome(){return &#x27;&#x27;;}
+  function mobilePlan(){const p=current();return title(&#x27;Mi plan&#x27;,&#x27;Actividades elegidas por tu equipo.&#x27;)+&#x27;&lt;div class=&quot;p-stack&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;Para hoy&lt;/h2&gt;&#x27;+badge(count(p)+&#x27; / &#x27;+p.tasks.length,&#x27;good&#x27;)+&#x27;&lt;/div&gt;&#x27;+taskList(p)+&#x27;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Mis cuidados&lt;/h2&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;span class=&quot;p-icon&quot;&gt;&#x27;+icon(&#x27;pill&#x27;)+&#x27;&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;Medicamentos&lt;/h3&gt;&lt;p&gt;Sin información en esta demo&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;span class=&quot;p-icon&quot;&gt;&#x27;+icon(&#x27;activity&#x27;)+&#x27;&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;Monitoreo en casa&lt;/h3&gt;&lt;p&gt;Sin mediciones en esta demo&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;&lt;/div&gt;&#x27;;}
+  function mobileProgress(){const p=current();return title(&#x27;Mi progreso&#x27;,&#x27;Tus registros, con claridad.&#x27;)+&#x27;&lt;div class=&quot;p-stack&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Así va tu plan de hoy&lt;/h2&gt;&lt;div class=&quot;p-dayline&quot;&gt;&lt;span&gt;Actividades registradas&lt;/span&gt;&lt;strong&gt;&#x27;+count(p)+&#x27; / &#x27;+p.tasks.length+&#x27;&lt;/strong&gt;&lt;/div&gt;&#x27;+track(count(p),p.tasks.length,&#x27;Plan registrado&#x27;)+&#x27;&lt;p class=&quot;p-note&quot;&gt;Este avance muestra tus registros, no una valoración de tu recuperación.&lt;/p&gt;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Cómo te has sentido&lt;/h2&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;Hoy&lt;/h3&gt;&lt;p&gt;&#x27;+ (p.mood?esc(p.mood):&#x27;Todavía no has respondido&#x27;)+&#x27;&lt;/p&gt;&lt;/div&gt;&#x27;+icon(&#x27;heart&#x27;)+&#x27;&lt;/div&gt;&lt;p class=&quot;p-note&quot;&gt;Cuando tengas más registros, podrás comparar días y semanas.&lt;/p&gt;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-empty&quot;&gt;&lt;span class=&quot;p-icon&quot;&gt;&#x27;+icon(&#x27;watch&#x27;)+&#x27;&lt;/span&gt;&lt;h3&gt;Datos de tu dispositivo&lt;/h3&gt;&lt;p class=&quot;p-small&quot;&gt;Sin dispositivo conectado.&lt;br&gt;Sin datos para hoy.&lt;/p&gt;&#x27;+badge(&#x27;Integración futura&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&lt;/div&gt;&#x27;;}
+  function mobileTeam(){const p=current();const a=appointments.find(function(item){return item.person===p.id;});return title(&#x27;Mi equipo&#x27;,&#x27;Acompañamiento durante tu recuperación.&#x27;)+&#x27;&lt;div class=&quot;p-stack&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-flex&quot;&gt;&lt;span class=&quot;p-avatar&quot;&gt;EQ&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h2&gt;Equipo POSUCI&lt;/h2&gt;&lt;p class=&quot;p-small p-muted&quot;&gt;Coordinación del programa&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&#x27;+(a?&#x27;&lt;div class=&quot;p-topspace p-small&quot;&gt;Próxima cita · &#x27;+shortDate(a.date)+&#x27; · &#x27;+a.time+&#x27;&lt;/div&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+badge(a.status,a.status===&#x27;Confirmada&#x27;?&#x27;good&#x27;:&#x27;pending&#x27;)+&#x27;&lt;/div&gt;&#x27;:&#x27;&lt;p class=&quot;p-note&quot;&gt;Sin cita programada en esta demo.&lt;/p&gt;&#x27;)+&#x27;&lt;/section&gt;&lt;form id=&quot;p-question-form&quot; class=&quot;p-panel&quot;&gt;&lt;h2&gt;Consultar a mi equipo&lt;/h2&gt;&lt;label class=&quot;p-field p-topspace&quot;&gt;Tu consulta de ejemplo&lt;textarea name=&quot;question&quot; placeholder=&quot;Escribe un tema para tu próxima consulta&quot; required maxlength=&quot;500&quot;&gt;&#x27;+esc(p.draft||&#x27;&#x27;)+&#x27;&lt;/textarea&gt;&lt;/label&gt;&lt;div class=&quot;p-topspace&quot;&gt;&lt;button type=&quot;submit&quot; class=&quot;p-button primary&quot;&gt;Registrar consulta en la demo&lt;/button&gt;&lt;/div&gt;&#x27;+(p.message?&#x27;&lt;p class=&quot;p-note&quot;&gt;&#x27;+(p.reviewed?&#x27;Revisada por el equipo en esta demo.&#x27;:&#x27;Pendiente de revisión en el panel de esta demo.&#x27;)+&#x27;&lt;/p&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/form&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h3&gt;Videollamadas&lt;/h3&gt;&lt;p class=&quot;p-small p-muted&quot;&gt;Integración futura · Sin servicio conectado.&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;&#x27;;}
+  function mobileProfile(){const p=current();return title(&#x27;Mi perfil&#x27;,&#x27;Tu cuenta y tus preferencias.&#x27;)+&#x27;&lt;div class=&quot;p-stack&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-flex&quot;&gt;&lt;span class=&quot;p-avatar&quot;&gt;&#x27;+p.initials+&#x27;&lt;/span&gt;&lt;div&gt;&lt;h2&gt;&#x27;+p.name+&#x27;&lt;/h2&gt;&lt;p class=&quot;p-small p-muted&quot;&gt;Paciente de ejemplo · POSUCI&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;label class=&quot;p-field&quot;&gt;Explorar otro paciente de ejemplo&lt;select id=&quot;p-mobile-person&quot;&gt;&#x27;+patients.map(function(item){return &#x27;&lt;option value=&quot;&#x27;+item.id+&#x27;&quot;&#x27;+(item.id===p.id?&#x27; selected&#x27;:&#x27;&#x27;)+&#x27;&gt;&#x27;+item.name+&#x27;&lt;/option&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/select&gt;&lt;/label&gt;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Preferencias de lectura&lt;/h2&gt;&lt;label class=&quot;p-task&quot;&gt;&lt;input type=&quot;checkbox&quot; id=&quot;p-large-text&quot; &#x27;+(state.largeText?&#x27;checked&#x27;:&#x27;&#x27;)+&#x27;&gt;&lt;span&gt;Aumentar el tamaño del texto&lt;/span&gt;&lt;/label&gt;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Dispositivos&lt;/h2&gt;&lt;div class=&quot;p-empty&quot;&gt;&#x27;+icon(&#x27;watch&#x27;)+&#x27;&lt;span&gt;Sin dispositivo conectado&lt;/span&gt;&#x27;+badge(&#x27;Integración futura&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&lt;/div&gt;&#x27;;}
+  const portalModules=[
+    [&#x27;home&#x27;,&#x27;🏠&#x27;,&#x27;Mi recuperación&#x27;,&#x27;Tu plan y actividades de hoy&#x27;,&#x27;#7c3aed&#x27;,&#x27;#ec4899&#x27;],
+    [&#x27;calendar&#x27;,&#x27;📅&#x27;,&#x27;Mi calendario&#x27;,&#x27;Citas y acompañamiento&#x27;,&#x27;#0ea5e9&#x27;,&#x27;#7c3aed&#x27;],
+    [&#x27;passport&#x27;,&#x27;📖&#x27;,&#x27;Antes y ahora&#x27;,&#x27;Tu pasaporte de recuperación&#x27;,&#x27;#0ea5e9&#x27;,&#x27;#0e7490&#x27;],
+    [&#x27;diary&#x27;,&#x27;✍️&#x27;,&#x27;Mi diario&#x27;,&#x27;Comparte cómo estuvo tu día&#x27;,&#x27;#7c3aed&#x27;,&#x27;#5b21b6&#x27;],
+    [&#x27;plan&#x27;,&#x27;🎯&#x27;,&#x27;Mis metas&#x27;,&#x27;Actividades elegidas por tu equipo&#x27;,&#x27;#f97316&#x27;,&#x27;#ea580c&#x27;],
+    [&#x27;wellbeing&#x27;,&#x27;💙&#x27;,&#x27;Cómo me siento&#x27;,&#x27;Bienestar y acompañamiento&#x27;,&#x27;#ec4899&#x27;,&#x27;#db2777&#x27;],
+    [&#x27;team&#x27;,&#x27;🆘&#x27;,&#x27;Necesito ayuda&#x27;,&#x27;Consulta a tu equipo&#x27;,&#x27;#ef4444&#x27;,&#x27;#b91c1c&#x27;],
+    [&#x27;medications&#x27;,&#x27;💊&#x27;,&#x27;Medicamentos&#x27;,&#x27;Tu plan de medicamentos&#x27;,&#x27;#0ea5e9&#x27;,&#x27;#2563eb&#x27;],
+    [&#x27;monitoring&#x27;,&#x27;🩺&#x27;,&#x27;Monitoreo en casa&#x27;,&#x27;Tus registros y dispositivos&#x27;,&#x27;#22c55e&#x27;,&#x27;#15803d&#x27;],
+    [&#x27;progress&#x27;,&#x27;📈&#x27;,&#x27;Mi progreso&#x27;,&#x27;Registros, constancia y evolución&#x27;,&#x27;#7c3aed&#x27;,&#x27;#0ea5e9&#x27;],
+    [&#x27;education&#x27;,&#x27;📚&#x27;,&#x27;Educación&#x27;,&#x27;Guías, videos y audios de tu plan&#x27;,&#x27;#6366f1&#x27;,&#x27;#4338ca&#x27;],
+    [&#x27;readiness&#x27;,&#x27;🎓&#x27;,&#x27;Preparación para el alta&#x27;,&#x27;Preparados para continuar en casa&#x27;,&#x27;#facc15&#x27;,&#x27;#ca8a04&#x27;],
+    [&#x27;summary&#x27;,&#x27;🖨️&#x27;,&#x27;Resumen para tu cita&#x27;,&#x27;Organiza tu próximo encuentro&#x27;,&#x27;#14b8a6&#x27;,&#x27;#0e7490&#x27;],
+    [&#x27;caregiver&#x27;,&#x27;🤝&#x27;,&#x27;Mi ruta como cuidador&#x27;,&#x27;Acompañamiento para la familia&#x27;,&#x27;#14b8a6&#x27;,&#x27;#0f766e&#x27;]
+  ];
+  function moduleTiles(list){return &#x27;&lt;div class=&quot;x-modules&quot;&gt;&#x27;+list.map(function(m){return &#x27;&lt;button type=&quot;button&quot; class=&quot;x-module&quot; data-action=&quot;go-module&quot; data-value=&quot;&#x27;+m[0]+&#x27;&quot;&gt;&lt;span class=&quot;x-module-icon&quot; style=&quot;background:linear-gradient(135deg,&#x27;+m[4]+&#x27;,&#x27;+m[5]+&#x27;)&quot;&gt;&#x27;+m[1]+&#x27;&lt;/span&gt;&lt;strong&gt;&#x27;+m[2]+&#x27;&lt;/strong&gt;&lt;small&gt;&#x27;+m[3]+&#x27;&lt;/small&gt;&lt;/button&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;}
+  function xpCard(p){const points=count(p)*10;return &#x27;&lt;section class=&quot;x-xp&quot; aria-label=&quot;Puntos de participación de ejemplo&quot;&gt;&lt;span class=&quot;x-level&quot;&gt;&#x27;+(Math.floor(points/100)+1)+&#x27;&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;div class=&quot;p-flex p-between&quot;&gt;&lt;strong&gt;Explorador de mi recuperación&lt;/strong&gt;&lt;span class=&quot;p-small p-muted&quot;&gt;&#x27;+(points%100)+&#x27; / 100 XP&lt;/span&gt;&lt;/div&gt;&#x27;+track(points%100,100,&#x27;Experiencia de participación&#x27;)+&#x27;&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;x-xpnum&quot;&gt;&#x27;+points+&#x27;&lt;/div&gt;&lt;div class=&quot;p-small p-muted&quot;&gt;puntos demo&lt;/div&gt;&lt;/div&gt;&lt;span class=&quot;x-streak&quot;&gt;🔥 3 días · ejemplo&lt;/span&gt;&lt;div class=&quot;x-badges&quot;&gt;&lt;span&gt;🌱 Primer paso&lt;/span&gt;&lt;span&gt;📖 Aprender me ayuda&lt;/span&gt;&lt;span&gt;💙 A mi ritmo&lt;/span&gt;&lt;/div&gt;&lt;/section&gt;&#x27;;}
+  function wellbeingCard(p){return &#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;💙 ¿Cómo te sientes hoy?&lt;/h2&gt;&#x27;+badge(&#x27;Mi bienestar&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-checks&quot;&gt;&#x27;+[&#x27;Bien&#x27;,&#x27;Regular&#x27;,&#x27;Mal&#x27;].map(function(m){return &#x27;&lt;button type=&quot;button&quot; data-action=&quot;mood&quot; data-value=&quot;&#x27;+m+&#x27;&quot; aria-pressed=&quot;&#x27;+(p.mood===m)+&#x27;&quot;&gt;&#x27;+m+&#x27;&lt;/button&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;p class=&quot;p-note&quot;&gt;Tu respuesta queda visible para el equipo en esta demostración.&lt;/p&gt;&lt;/section&gt;&#x27;;}
+  function mobileHome(){const p=current();const next=appointments.find(function(a){return a.person===p.id;});const daily=&#x27;&lt;div class=&quot;x-sectionhead&quot;&gt;&lt;div&gt;&lt;h2&gt;☀️ Tu día&lt;/h2&gt;&lt;p class=&quot;p-small p-muted&quot;&gt;Tu plan de recuperación, a tu ritmo.&lt;/p&gt;&lt;/div&gt;&#x27;+badge(count(p)+&#x27; de &#x27;+p.tasks.length+&#x27; actividades registradas&#x27;,&#x27;good&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;x-daygrid&quot;&gt;&#x27;+[[&#x27;Mañana&#x27;,&#x27;🌅&#x27;],[&#x27;Tarde&#x27;,&#x27;🌤️&#x27;],[&#x27;Noche&#x27;,&#x27;🌙&#x27;]].map(function(slot){const tasks=p.tasks.filter(function(t){return (t.period||&#x27;Tarde&#x27;)===slot[0];});return &#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;h3&gt;&#x27;+slot[1]+&#x27; &#x27;+slot[0]+&#x27;&lt;/h3&gt;&#x27;+(tasks.length?taskList({tasks:tasks}):&#x27;&lt;p class=&quot;p-small p-muted&quot;&gt;Sin actividades asignadas para este momento.&lt;/p&gt;&#x27;)+&#x27;&lt;/section&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+    return &#x27;&lt;section class=&quot;x-hero&quot;&gt;&lt;span class=&quot;x-mascot&quot; aria-hidden=&quot;true&quot;&gt;🦸&lt;/span&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h1&gt;¡Hola, &#x27;+p.name+&#x27;! 👋&lt;/h1&gt;&lt;span class=&quot;x-speech&quot;&gt;Cada cosita que registras hoy suma para tu recuperación. ¡Vamos por más! 💪&lt;/span&gt;&lt;div class=&quot;p-flex&quot; style=&quot;margin-top:12px&quot;&gt;&#x27;+badge(&#x27;Caso DEMO-&#x27;+p.id.toUpperCase())+badge(&#x27;Etapa: en casa&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&lt;/section&gt;&#x27;+(design.dailyFirst?daily+&#x27;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+xpCard(p)+&#x27;&lt;/div&gt;&#x27;:xpCard(p)+daily)+&#x27;&lt;div class=&quot;x-twocol&quot;&gt;&#x27;+wellbeingCard(p)+&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;📅 Tu próxima cita&lt;/h2&gt;&#x27;+badge(next?next.status:&#x27;Por programar&#x27;)+&#x27;&lt;/div&gt;&lt;h3&gt;&#x27;+(next?shortDate(next.date)+&#x27; · &#x27;+next.time:&#x27;Aún no hay una cita&#x27;)+&#x27;&lt;/h3&gt;&lt;p class=&quot;p-small p-muted&quot;&gt;Equipo de seguimiento POSUCI&lt;/p&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+button(&#x27;Ver mi calendario&#x27;,&#x27;portal-calendar&#x27;)+&#x27; &#x27;+button(&#x27;Consultar a mi equipo&#x27;,&#x27;mobile-team&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&lt;/div&gt;&lt;div class=&quot;x-sectionhead&quot;&gt;&lt;h2&gt;📚 Aprende y cuídate&lt;/h2&gt;&#x27;+button(&#x27;Ver Educación →&#x27;,&#x27;portal-education&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;x-shelf&quot;&gt;&#x27;+[[&#x27;🚶&#x27;,&#x27;Movilidad&#x27;,&#x27;Actividad&#x27;],[&#x27;🍎&#x27;,&#x27;Nutrición&#x27;,&#x27;Nutrición&#x27;],[&#x27;💙&#x27;,&#x27;Bienestar y descanso&#x27;,&#x27;Bienestar&#x27;]].map(function(topic){return &#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-flex&quot;&gt;&lt;span class=&quot;x-topic-icon&quot;&gt;&#x27;+topic[0]+&#x27;&lt;/span&gt;&lt;h3&gt;&#x27;+topic[1]+&#x27;&lt;/h3&gt;&lt;/div&gt;&lt;p class=&quot;p-small p-muted p-topspace&quot;&gt;Contenido asignado dentro de tu plan.&lt;/p&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+button(&#x27;Explorar&#x27;,&#x27;portal-topic&#x27;,&#x27;data-value=&quot;&#x27;+topic[2]+&#x27;&quot;&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;x-sectionhead&quot;&gt;&lt;h2&gt;🗺️ Explora todo&lt;/h2&gt;&#x27;+button(&#x27;Todos los módulos&#x27;,&#x27;portal-modules&#x27;)+&#x27;&lt;/div&gt;&#x27;+moduleTiles(portalModules.filter(function(m){return [&#x27;plan&#x27;,&#x27;diary&#x27;,&#x27;monitoring&#x27;,&#x27;team&#x27;].includes(m[0]);}))+&#x27;&lt;p class=&quot;p-note&quot;&gt;Los puntos reconocen participación; no representan una evaluación médica.&lt;/p&gt;&#x27;;}
+  function mobileCalendar(){const p=current();const a=appointments.find(function(item){return item.person===p.id;});return title(&#x27;📅 Mi calendario&#x27;,&#x27;Tu agenda de acompañamiento y actividades.&#x27;)+&#x27;&lt;div class=&quot;x-twocol&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;Próximas citas&lt;/h2&gt;&#x27;+badge(&#x27;Septiembre · Demo&#x27;)+&#x27;&lt;/div&gt;&#x27;+(a?appointmentRow(a,false):&#x27;&lt;div class=&quot;p-empty&quot;&gt;No tienes citas programadas en esta demo.&lt;/div&gt;&#x27;)+&#x27;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+button(&#x27;Solicitar un cambio&#x27;,&#x27;mobile-team&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;📹 Videollamada&lt;/h2&gt;&lt;p class=&quot;p-small p-muted p-topspace&quot;&gt;Aquí aparecería el enlace de acceso de la cita.&lt;/p&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+badge(&#x27;Sin proveedor conectado&#x27;,&#x27;pending&#x27;)+&#x27;&lt;/div&gt;&lt;p class=&quot;p-note&quot;&gt;Ampliación propuesta dentro de la agenda existente.&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;&lt;section class=&quot;p-panel p-topspace&quot;&gt;&lt;h2&gt;Actividades de hoy&lt;/h2&gt;&#x27;+taskList(p)+&#x27;&lt;/section&gt;&#x27;;}
+  function mobileEducation(){const p=current();const assigned=materials.filter(function(m){return p.tasks.some(function(t){return t.material===m.id;})&amp;&amp;(state.topic===&#x27;Todos&#x27;||m.category===state.topic);});return title(&#x27;📚 Educación&#x27;,&#x27;Contenido que tu equipo eligió para tu recuperación.&#x27;)+&#x27;&lt;div class=&quot;x-portal-tabs&quot; aria-label=&quot;Tema de educación&quot;&gt;&#x27;+[&#x27;Todos&#x27;,&#x27;Actividad&#x27;,&#x27;Nutrición&#x27;,&#x27;Bienestar&#x27;,&#x27;Sueño&#x27;,&#x27;Cognitivo&#x27;,&#x27;Educación&#x27;].map(function(t){return &#x27;&lt;button type=&quot;button&quot; data-action=&quot;portal-topic&quot; data-value=&quot;&#x27;+t+&#x27;&quot; aria-pressed=&quot;&#x27;+(state.topic===t)+&#x27;&quot;&gt;&#x27;+(t===&#x27;Actividad&#x27;?&#x27;Movilidad&#x27;:t)+&#x27;&lt;/button&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-library&quot;&gt;&#x27;+assigned.map(function(m){const t=p.tasks.find(function(item){return item.material===m.id;});return &#x27;&lt;article class=&quot;p-material&quot;&gt;&lt;div class=&quot;p-cover&quot;&gt;&#x27;+icon(m.icon)+badge(m.type)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-materialbody&quot;&gt;&lt;div class=&quot;p-flex p-between&quot;&gt;&lt;span class=&quot;p-small p-muted&quot;&gt;&#x27;+m.category+&#x27; · &#x27;+m.time+&#x27;&lt;/span&gt;&#x27;+badge(t.done?&#x27;Revisado&#x27;:&#x27;Nuevo&#x27;,t.done?&#x27;good&#x27;:&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;h2&gt;&#x27;+m.title+&#x27;&lt;/h2&gt;&lt;p&gt;&#x27;+m.summary+&#x27;&lt;/p&gt;&#x27;+button(&#x27;Abrir contenido&#x27;,&#x27;read-material&#x27;,&#x27;data-id=&quot;&#x27;+m.id+&#x27;&quot;&#x27;,true)+&#x27;&lt;/div&gt;&lt;/article&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;+(assigned.length?&#x27;&#x27;:&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-empty&quot;&gt;&lt;span style=&quot;font-size:30px&quot;&gt;📚&lt;/span&gt;&lt;h3&gt;Sin contenido asignado en esta categoría&lt;/h3&gt;&lt;p class=&quot;p-small&quot;&gt;Tu equipo puede añadirlo desde Educación personalizada.&lt;/p&gt;&lt;/div&gt;&lt;/section&gt;&#x27;);}
+  function moduleScreen(){const p=current();const m=portalModules.find(function(item){return item[0]===state.module;});const heading=title(m[1]+&#x27; &#x27;+m[2],m[3]+&#x27;.&#x27;);if(state.module===&#x27;wellbeing&#x27;)return heading+wellbeingCard(p);
+    if(state.module===&#x27;diary&#x27;)return heading+&#x27;&lt;form id=&quot;x-diary-form&quot; class=&quot;p-panel&quot;&gt;&lt;label class=&quot;p-field&quot;&gt;¿Qué quieres recordar o compartir de hoy?&lt;textarea name=&quot;diary&quot; required maxlength=&quot;500&quot; placeholder=&quot;Escribe una nota de ejemplo&quot;&gt;&#x27;+esc(p.diary||&#x27;&#x27;)+&#x27;&lt;/textarea&gt;&lt;/label&gt;&lt;div class=&quot;p-topspace&quot;&gt;&lt;button type=&quot;submit&quot; class=&quot;p-button primary&quot;&gt;✍️ Guardar en mi diario demo&lt;/button&gt;&lt;/div&gt;&lt;/form&gt;&#x27;;
+    if(state.module===&#x27;monitoring&#x27;)return heading+&#x27;&lt;div class=&quot;x-twocol&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;🩺 Mis mediciones&lt;/h2&gt;&lt;div class=&quot;p-empty&quot;&gt;Sin mediciones registradas en esta demo.&lt;/div&gt;&#x27;+badge(&#x27;Registro manual · Módulo existente&#x27;)+&#x27;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;⌚ Tu dispositivo hoy&lt;/h2&gt;&lt;div class=&quot;p-empty&quot;&gt;Sin dispositivo conectado.&lt;br&gt;Sin datos para hoy.&lt;/div&gt;&#x27;+badge(&#x27;Integración opcional propuesta&#x27;,&#x27;pending&#x27;)+&#x27;&lt;/section&gt;&lt;/div&gt;&lt;div class=&quot;x-sectionhead&quot;&gt;&lt;h2&gt;Datos por consultar&lt;/h2&gt;&lt;/div&gt;&lt;div class=&quot;x-modules&quot;&gt;&#x27;+[&#x27;Sueño&#x27;,&#x27;Pasos&#x27;,&#x27;Frecuencia cardíaca&#x27;,&#x27;Oxígeno&#x27;].map(function(label){return &#x27;&lt;div class=&quot;p-panel&quot;&gt;&lt;h3&gt;&#x27;+label+&#x27;&lt;/h3&gt;&lt;p class=&quot;p-note&quot;&gt;Sin datos&lt;/p&gt;&lt;p class=&quot;p-note&quot;&gt;Fuente y última sincronización: —&lt;/p&gt;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;
+    if(state.module===&#x27;medications&#x27;)return heading+&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-empty&quot;&gt;&lt;span style=&quot;font-size:34px&quot;&gt;💊&lt;/span&gt;&lt;h2&gt;Sin medicamentos en la demostración&lt;/h2&gt;&lt;p class=&quot;p-small&quot;&gt;Aquí se conserva el plan registrado por tu equipo.&lt;/p&gt;&lt;/div&gt;&lt;/section&gt;&#x27;;
+    if(state.module===&#x27;readiness&#x27;||state.module===&#x27;caregiver&#x27;){const labels=state.module===&#x27;readiness&#x27;?[&#x27;Sé dónde consultar mi plan&#x27;,&#x27;Conozco mi próxima cita&#x27;,&#x27;Sé cómo contactar a mi equipo&#x27;]:[&#x27;Conozco el plan de la persona que acompaño&#x27;,&#x27;Tengo claras las próximas citas&#x27;,&#x27;He anotado mis preguntas para el equipo&#x27;];return heading+&#x27;&lt;div class=&quot;x-journey&quot;&gt;&#x27;+labels.map(function(label,i){const key=state.module+&#x27;-&#x27;+i;return &#x27;&lt;label&gt;&lt;input type=&quot;checkbox&quot; data-journey=&quot;&#x27;+key+&#x27;&quot; &#x27;+(p.journey&amp;&amp;p.journey[key]?&#x27;checked&#x27;:&#x27;&#x27;)+&#x27;&gt;&lt;span&gt;&#x27;+label+&#x27;&lt;/span&gt;&lt;/label&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+button(&#x27;Consultar al equipo&#x27;,&#x27;mobile-team&#x27;)+&#x27;&lt;/div&gt;&#x27;;}
+    if(state.module===&#x27;passport&#x27;)return heading+&#x27;&lt;div class=&quot;x-twocol&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;📖 Antes&lt;/h2&gt;&lt;div class=&quot;p-empty&quot;&gt;Tu historia, actividades y apoyos antes del ingreso.&lt;/div&gt;&#x27;+badge(&#x27;Información de ejemplo por completar&#x27;)+&#x27;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;🌱 Ahora&lt;/h2&gt;&lt;div class=&quot;p-empty&quot;&gt;Metas y apoyos durante la recuperación.&lt;/div&gt;&#x27;+button(&#x27;Ver mis metas&#x27;,&#x27;portal-plan&#x27;)+&#x27;&lt;/section&gt;&lt;/div&gt;&#x27;;
+    return heading+&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;&#x27;+p.name+&#x27; · Caso de ejemplo&lt;/h2&gt;&#x27;+badge(&#x27;Resumen demo&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;div class=&quot;p-grow&quot;&gt;Actividades registradas hoy&lt;/div&gt;&lt;strong&gt;&#x27;+count(p)+&#x27; / &#x27;+p.tasks.length+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;div class=&quot;p-grow&quot;&gt;Cómo me siento&lt;/div&gt;&lt;strong&gt;&#x27;+esc(p.mood||&#x27;Sin respuesta&#x27;)+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;div class=&quot;p-grow&quot;&gt;Consulta para mi equipo&lt;/div&gt;&lt;span&gt;&#x27;+esc(p.message||&#x27;Sin consulta registrada&#x27;)+&#x27;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+button(&#x27;Ver mi calendario&#x27;,&#x27;portal-calendar&#x27;)+&#x27;&lt;/div&gt;&lt;/section&gt;&#x27;;}
+  function caseHeader(){const p=current();return &#x27;&lt;div class=&quot;x-casehead&quot;&gt;&lt;div&gt;&lt;small&gt;Caso / paciente&lt;/small&gt;&lt;strong&gt;DEMO-&#x27;+p.id.toUpperCase()+&#x27; · &#x27;+p.name+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div&gt;&lt;small&gt;Ingreso al programa&lt;/small&gt;&lt;strong&gt;01/09/2026 · Ejemplo&lt;/strong&gt;&lt;/div&gt;&lt;div&gt;&lt;small&gt;Estado / responsable&lt;/small&gt;&lt;strong&gt;&#x27;+p.stage+&#x27;&lt;br&gt;Equipo POSUCI&lt;/strong&gt;&lt;/div&gt;&lt;div&gt;&lt;small&gt;Seguimientos / remisiones&lt;/small&gt;&lt;strong&gt;Sin seguimientos clínicos&lt;br&gt;ni remisiones de ejemplo&lt;/strong&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;}
+  function programTabs(){return &#x27;&lt;div class=&quot;x-programtabs&quot; aria-label=&quot;Módulos del Programa PICS&quot;&gt;&#x27;+[[&#x27;cases&#x27;,&#x27;Casos&#x27;],[&#x27;people&#x27;,&#x27;Plan interdisciplinario&#x27;],[&#x27;library&#x27;,&#x27;Educación personalizada&#x27;],[&#x27;agenda&#x27;,&#x27;Agenda coordinada&#x27;],[&#x27;followups&#x27;,&#x27;Seguimiento POSUCI&#x27;]].map(function(t){return &#x27;&lt;button type=&quot;button&quot; data-program=&quot;&#x27;+t[0]+&#x27;&quot; aria-pressed=&quot;&#x27;+(state.page===t[0])+&#x27;&quot;&gt;&#x27;+t[1]+&#x27;&lt;/button&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;;}
+  function personDetail(){const p=current();let content=&#x27;&#x27;;if(state.recordTab===&#x27;Actividades del paciente&#x27;){content=&#x27;&lt;div class=&quot;x-plan-columns&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;p-panelhead&quot;&gt;&lt;h2&gt;Actividades del paciente&lt;/h2&gt;&#x27;+button(&#x27;Añadir desde la biblioteca&#x27;,&#x27;library&#x27;,null,true)+&#x27;&lt;/div&gt;&lt;div class=&quot;x-tablewrap&quot;&gt;&lt;table class=&quot;x-table&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Actividad&lt;/th&gt;&lt;th&gt;Momento&lt;/th&gt;&lt;th&gt;Estado&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&#x27;+p.tasks.map(function(t){return &#x27;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;&#x27;+esc(t.title)+&#x27;&lt;/strong&gt;&lt;div class=&quot;p-small p-muted&quot;&gt;&#x27;+esc(t.type)+&#x27;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&#x27;+esc(t.period||&#x27;Tarde&#x27;)+&#x27;&lt;/td&gt;&lt;td&gt;&#x27;+badge(t.done?&#x27;Registrada&#x27;:&#x27;Pendiente&#x27;,t.done?&#x27;good&#x27;:&#x27;&#x27;)+&#x27;&lt;/td&gt;&lt;/tr&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/section&gt;&lt;div class=&quot;p-stack&quot;&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Visible en POSUCI 360 Conecta&lt;/h2&gt;&lt;p class=&quot;p-small p-muted p-topspace&quot;&gt;Tu día · Mis metas · Educación&lt;/p&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+button(&#x27;Ver portal del paciente&#x27;,&#x27;preview&#x27;,null,true)+&#x27;&lt;/div&gt;&lt;/section&gt;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Reporte de &#x27;+p.name+&#x27;&lt;/h2&gt;&lt;p class=&quot;p-small p-topspace&quot;&gt;Bienestar: &#x27;+esc(p.mood||&#x27;Sin respuesta&#x27;)+&#x27;&lt;/p&gt;&#x27;+track(count(p),p.tasks.length,&#x27;Actividades registradas&#x27;)+&#x27;&lt;p class=&quot;p-note&quot;&gt;&#x27;+count(p)+&#x27; / &#x27;+p.tasks.length+&#x27; actividades registradas. Sin índice clínico.&lt;/p&gt;&lt;/section&gt;&#x27;+(p.message?&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Solicitud del paciente&lt;/h2&gt;&lt;p class=&quot;p-small p-topspace&quot; style=&quot;overflow-wrap:anywhere&quot;&gt;&#x27;+esc(p.message)+&#x27;&lt;/p&gt;&lt;div class=&quot;p-topspace&quot;&gt;&#x27;+(p.reviewed?badge(&#x27;Revisada&#x27;,&#x27;good&#x27;):button(&#x27;Marcar revisada&#x27;,&#x27;review-message&#x27;,null,true))+&#x27;&lt;/div&gt;&lt;/section&gt;&#x27;:&#x27;&#x27;)+&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;}
+    else if(state.recordTab===&#x27;Plan por disciplina&#x27;){content=&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Plan por disciplina&lt;/h2&gt;&lt;div class=&quot;x-tablewrap&quot;&gt;&lt;table class=&quot;x-table&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Área&lt;/th&gt;&lt;th&gt;Contenido y seguimiento&lt;/th&gt;&lt;th&gt;Gestión&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&#x27;+[[&#x27;Rehabilitación&#x27;,&#x27;Actividad&#x27;],[&#x27;Nutrición&#x27;,&#x27;Nutrición&#x27;],[&#x27;Psicología&#x27;,&#x27;Bienestar&#x27;],[&#x27;Educación y autocuidado&#x27;,&#x27;Educación&#x27;]].map(function(item){return &#x27;&lt;tr&gt;&lt;td&gt;&#x27;+item[0]+&#x27;&lt;/td&gt;&lt;td&gt;Actividades individualizadas del plan&lt;/td&gt;&lt;td&gt;&#x27;+button(&#x27;Seleccionar contenido&#x27;,&#x27;clinical-topic&#x27;,&#x27;data-value=&quot;&#x27;+item[1]+&#x27;&quot;&#x27;)+&#x27;&lt;/td&gt;&lt;/tr&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/section&gt;&#x27;;}
+    else if(state.recordTab===&#x27;Versión&#x27;){content=&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Versión del plan&lt;/h2&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;div class=&quot;p-grow&quot;&gt;Versión de ejemplo&lt;/div&gt;&#x27;+badge(&#x27;1 · Activa&#x27;,&#x27;good&#x27;)+&#x27;&lt;/div&gt;&lt;div class=&quot;p-row&quot;&gt;&lt;div class=&quot;p-grow&quot;&gt;Actividades visibles para el paciente&lt;/div&gt;&lt;strong&gt;&#x27;+p.tasks.length+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;p class=&quot;p-note&quot;&gt;La trazabilidad del plan se mantiene en el expediente.&lt;/p&gt;&lt;/section&gt;&#x27;;}
+    else {content=&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;h2&gt;Objetivo y criterios de egreso&lt;/h2&gt;&lt;div class=&quot;p-formrow p-topspace&quot;&gt;&lt;label class=&quot;p-field&quot;&gt;Objetivo individual&lt;textarea disabled&gt;Ejemplo: acompañar el cumplimiento del plan acordado con la persona y su equipo.&lt;/textarea&gt;&lt;/label&gt;&lt;label class=&quot;p-field&quot;&gt;Criterios de egreso&lt;textarea disabled&gt;Definidos por el equipo tratante. Esta propuesta no establece criterios clínicos.&lt;/textarea&gt;&lt;/label&gt;&lt;/div&gt;&lt;/section&gt;&#x27;;}
+    return title(&#x27;Plan interdisciplinario&#x27;,&#x27;Programa PICS · &#x27;+p.name+&#x27; · Datos de ejemplo&#x27;,button(&#x27;Ver portal POSUCI&#x27;,&#x27;preview&#x27;,null,true))+caseHeader()+&#x27;&lt;div class=&quot;x-recordtabs&quot; aria-label=&quot;Secciones del plan&quot;&gt;&#x27;+[&#x27;Objetivo y criterios de egreso&#x27;,&#x27;Plan por disciplina&#x27;,&#x27;Versión&#x27;,&#x27;Actividades del paciente&#x27;].map(function(label){return &#x27;&lt;button type=&quot;button&quot; data-action=&quot;record-tab&quot; data-value=&quot;&#x27;+label+&#x27;&quot; aria-pressed=&quot;&#x27;+(state.recordTab===label)+&#x27;&quot;&gt;&#x27;+label+&#x27;&lt;/button&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/div&gt;&#x27;+content;}
+  function followups(){const rows=[];patients.forEach(function(p){p.tasks.filter(function(t){return t.done;}).forEach(function(t){rows.push({p:p,t:t});});});return title(&#x27;Seguimiento POSUCI&#x27;,&#x27;Registros del portal disponibles para revisión del equipo.&#x27;)+&#x27;&lt;section class=&quot;p-panel&quot;&gt;&lt;div class=&quot;x-tablewrap&quot;&gt;&lt;table class=&quot;x-table&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Caso&lt;/th&gt;&lt;th&gt;Meta / actividad&lt;/th&gt;&lt;th&gt;Reportado por&lt;/th&gt;&lt;th&gt;Fecha&lt;/th&gt;&lt;th&gt;Estado&lt;/th&gt;&lt;th&gt;Acción&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&#x27;+rows.map(function(row){return &#x27;&lt;tr&gt;&lt;td&gt;DEMO-&#x27;+row.p.id.toUpperCase()+&#x27;&lt;/td&gt;&lt;td&gt;&#x27;+esc(row.t.title)+&#x27;&lt;/td&gt;&lt;td&gt;&#x27;+row.p.name+&#x27; · Paciente&lt;/td&gt;&lt;td&gt;19/09/2026&lt;/td&gt;&lt;td&gt;&#x27;+badge(row.t.validated?&#x27;Validado&#x27;:&#x27;Por revisar&#x27;,row.t.validated?&#x27;good&#x27;:&#x27;pending&#x27;)+&#x27;&lt;/td&gt;&lt;td&gt;&#x27;+(row.t.validated?&#x27;&lt;span class=&quot;p-small p-muted&quot;&gt;Revisado&lt;/span&gt;&#x27;:button(&#x27;Validar&#x27;,&#x27;validate&#x27;,&#x27;data-person=&quot;&#x27;+row.p.id+&#x27;&quot; data-id=&quot;&#x27;+row.t.id+&#x27;&quot;&#x27;,true))+&#x27;&lt;/td&gt;&lt;/tr&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/section&gt;&#x27;;}
+  function adminContext(page){const labels={governance:[&#x27;Gobierno clínico&#x27;,&#x27;Plan interdisciplinario&#x27;,&#x27;Roles del equipo&#x27;,&#x27;Objetivo y criterios de egreso&#x27;],quality:[&#x27;Calidad y mejora&#x27;,&#x27;Solicitudes y dificultades&#x27;,&#x27;Trazabilidad de los registros&#x27;,&#x27;Revisión del equipo&#x27;],dictionary:[&#x27;Ficha técnica de indicadores&#x27;,&#x27;Realización del plan&#x27;,&#x27;Participación en el portal&#x27;,&#x27;Fuente de los registros&#x27;]};const items=labels[page];return title(items[0],&#x27;Espacio existente del Programa PICS.&#x27;)+&#x27;&lt;section class=&quot;p-panel&quot;&gt;&#x27;+items.slice(1).map(function(item,i){return &#x27;&lt;div class=&quot;p-row&quot;&gt;&lt;div class=&quot;p-grow&quot;&gt;&lt;h3&gt;&#x27;+item+&#x27;&lt;/h3&gt;&lt;p&gt;&#x27;+([&#x27;Gestión desde los módulos del programa.&#x27;,&#x27;Información separada de los puntos y logros.&#x27;,&#x27;Registros de ejemplo, sin datos clínicos reales.&#x27;][i])+&#x27;&lt;/p&gt;&lt;/div&gt;&#x27;+button(&#x27;Ver integración&#x27;,&#x27;show-map&#x27;)+&#x27;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;/section&gt;&#x27;;}
+  function integrationMap(){const rows=[[&#x27;Plan interdisciplinario&#x27;,&#x27;Actividades del paciente por momento y disciplina&#x27;,&#x27;☀️ Tu día · 🎯 Mis metas&#x27;],[&#x27;Educación personalizada&#x27;,&#x27;Guías, videos y audios asignados al plan&#x27;,&#x27;📚 Movilidad · Nutrición · Bienestar · Sueño&#x27;],[&#x27;Agenda coordinada&#x27;,&#x27;Citas, recordatorios y acceso a videollamada&#x27;,&#x27;📅 Mi calendario&#x27;],[&#x27;Solicitudes y dificultades&#x27;,&#x27;Consulta del paciente y revisión por el equipo&#x27;,&#x27;🆘 Necesito ayuda&#x27;],[&#x27;Seguimiento POSUCI&#x27;,&#x27;Actividad registrada → revisión → validación&#x27;,&#x27;📈 Mi progreso&#x27;],[&#x27;Monitoreo en casa&#x27;,&#x27;Registros manuales + dispositivos opcionales&#x27;,&#x27;🩺 Fuente · Última sincronización&#x27;],[&#x27;Preparación para el alta&#x27;,&#x27;Ruta del paciente y participación del cuidador&#x27;,&#x27;🎓 Alta · 🤝 Mi ruta como cuidador&#x27;]];return &#x27;&lt;div class=&quot;p-title&quot;&gt;&lt;div&gt;&lt;h1&gt;🧩 Todo dentro de tu proyecto&lt;/h1&gt;&lt;p&gt;Módulos actuales → integración propuesta → experiencia del paciente&lt;/p&gt;&lt;/div&gt;&#x27;+badge(&#x27;Sin sustituir la identidad visual&#x27;)+&#x27;&lt;/div&gt;&#x27;+rows.map(function(row){return &#x27;&lt;div class=&quot;x-maprow&quot;&gt;&lt;div class=&quot;x-mapcell clinical&quot;&gt;&lt;small&gt;ÁGORA · Módulo actual&lt;/small&gt;&lt;strong&gt;&#x27;+row[0]+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;x-maparrow&quot; aria-hidden=&quot;true&quot;&gt;→&lt;/div&gt;&lt;div class=&quot;x-mapcell connector&quot;&gt;&lt;small&gt;Conexión propuesta&lt;/small&gt;&lt;strong&gt;&#x27;+row[1]+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;div class=&quot;x-maparrow&quot; aria-hidden=&quot;true&quot;&gt;→&lt;/div&gt;&lt;div class=&quot;x-mapcell portal&quot;&gt;&lt;small&gt;POSUCI 360 Conecta&lt;/small&gt;&lt;strong&gt;&#x27;+row[2]+&#x27;&lt;/strong&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;}).join(&#x27;&#x27;)+&#x27;&lt;div class=&quot;x-twocol&quot;&gt;&lt;div class=&quot;x-mapcell&quot;&gt;&lt;strong&gt;🎨 Se conserva&lt;/strong&gt;&lt;small&gt;Degradados, mascota, puntos, insignias, tarjetas y módulos del portal.&lt;/small&gt;&lt;/div&gt;&lt;div class=&quot;x-mapcell&quot;&gt;&lt;strong&gt;🏥 Se conserva&lt;/strong&gt;&lt;small&gt;Barra azul ÁGORA, Montserrat, cabecera de caso, tablas y botones Teal.&lt;/small&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;}
+  function render(){
+    root.querySelectorAll(&#x27;[data-view]&#x27;).forEach(function(b){b.setAttribute(&#x27;aria-pressed&#x27;,String(b.dataset.view===state.view));});
+    root.querySelector(&#x27;#p-team&#x27;).hidden=state.view!==&#x27;team&#x27;;root.querySelector(&#x27;#p-patient&#x27;).hidden=state.view!==&#x27;patient&#x27;;root.querySelector(&#x27;#p-map&#x27;).hidden=state.view!==&#x27;map&#x27;;root.querySelector(&#x27;#p-map&#x27;).innerHTML=integrationMap();
+    root.querySelectorAll(&#x27;[data-page]&#x27;).forEach(function(b){const active=[&#x27;cases&#x27;,&#x27;people&#x27;,&#x27;library&#x27;,&#x27;agenda&#x27;,&#x27;followups&#x27;].includes(state.page)?&#x27;people&#x27;:state.page;if(b.dataset.page===active)b.setAttribute(&#x27;aria-current&#x27;,&#x27;page&#x27;);else b.removeAttribute(&#x27;aria-current&#x27;);});
+    root.querySelectorAll(&#x27;[data-mobile]&#x27;).forEach(function(b){if(b.dataset.mobile===state.mobile)b.setAttribute(&#x27;aria-current&#x27;,&#x27;page&#x27;);else b.removeAttribute(&#x27;aria-current&#x27;);});
+    const pages={overview:overview,cases:people,people:people,library:library,agenda:agenda,reports:reports,followups:followups,governance:function(){return adminContext(&#x27;governance&#x27;);},quality:function(){return adminContext(&#x27;quality&#x27;);},dictionary:function(){return adminContext(&#x27;dictionary&#x27;);}};
+    const screens={home:mobileHome,plan:mobilePlan,progress:mobileProgress,team:mobileTeam,profile:mobileProfile,calendar:mobileCalendar,education:mobileEducation,modules:function(){return title(&#x27;🗺️ Todos los módulos&#x27;,&#x27;Tu recuperación en un solo lugar.&#x27;)+moduleTiles(portalModules);},module:moduleScreen};
+    main.innerHTML=([&#x27;cases&#x27;,&#x27;people&#x27;,&#x27;library&#x27;,&#x27;agenda&#x27;,&#x27;followups&#x27;].includes(state.page)?programTabs():&#x27;&#x27;)+pages[state.page]();mobile.innerHTML=state.reading&amp;&amp;[&#x27;home&#x27;,&#x27;plan&#x27;,&#x27;calendar&#x27;,&#x27;education&#x27;].includes(state.mobile)?mobileMaterial():screens[state.mobile]();
+    root.querySelector(&#x27;#p-patient-avatar&#x27;).textContent=current().initials;
+    mobile.style.fontSize=state.largeText?&#x27;17px&#x27;:&#x27;&#x27;;root.querySelector(&#x27;#p-patient&#x27;).classList.toggle(&#x27;x-easy&#x27;,state.easy);
+    if(globalThis.lucide)lucide.createIcons({attrs:{width:17,height:17}});
+  }
+  root.addEventListener(&#x27;click&#x27;,function(event){
+    const b=event.target.closest(&#x27;button&#x27;);if(!b||!root.contains(b))return;
+    if(b.dataset.view){state.view=b.dataset.view;render();announce(state.view===&#x27;patient&#x27;?&#x27;Portal de &#x27;+current().name+&#x27; · Datos de ejemplo&#x27;:state.view===&#x27;team&#x27;?&#x27;Panel ÁGORA · Datos de ejemplo&#x27;:&#x27;Mapa de integración propuesto&#x27;);return;}
+    if(b.dataset.page){state.page=b.dataset.page;state.detail=state.page===&#x27;people&#x27;;state.editing=null;render();announce(&#x27;Sección: &#x27;+b.textContent.trim());return;}
+    if(b.dataset.program){state.page=b.dataset.program;state.detail=state.page===&#x27;people&#x27;;state.editing=null;render();announce(&#x27;Sección: &#x27;+b.textContent.trim());return;}
+    if(b.dataset.mobile){state.mobile=b.dataset.mobile;state.reading=null;render();announce(&#x27;Sección: &#x27;+b.textContent.trim());return;}
+    const a=b.dataset.action;if(!a)return;
+    if(a===&#x27;person&#x27;){state.person=b.dataset.id;state.page=&#x27;people&#x27;;state.detail=true;state.reading=null;}
+    if(a===&#x27;people&#x27;){state.page=&#x27;people&#x27;;state.detail=false;}
+    if(a===&#x27;library&#x27;){state.page=&#x27;library&#x27;;state.material=null;}
+    if(a===&#x27;agenda&#x27;){state.page=&#x27;agenda&#x27;;}
+    if(a===&#x27;preview&#x27;){state.view=&#x27;patient&#x27;;state.mobile=&#x27;home&#x27;;}
+    if(a===&#x27;filter&#x27;){state.filter=b.dataset.value;}
+    if(a===&#x27;material&#x27;){state.material=b.dataset.id;}
+    if(a===&#x27;close-material&#x27;){state.material=null;}
+    if(a===&#x27;assign&#x27;){const m=materials.find(function(item){return item.id===b.dataset.id;});if(!current().tasks.some(function(t){return t.material===m.id;})){current().tasks.push({id:&#x27;demo-&#x27;+(++serial),material:m.id,title:m.title,type:m.category+&#x27; · &#x27;+m.type,period:m.category===&#x27;Sueño&#x27;?&#x27;Noche&#x27;:&#x27;Tarde&#x27;,done:false});announce(&#x27;Asignado a &#x27;+current().name+&#x27; en esta demo. Aparece en Tu día, Mis metas y Educación.&#x27;);}}
+    if(a===&#x27;appointment&#x27;){state.editing=b.dataset.id;}
+    if(a===&#x27;close-appointment&#x27;){state.editing=null;}
+    if(a===&#x27;mood&#x27;){const changed=current().mood!==b.dataset.value;current().mood=b.dataset.value;current().tasks.filter(function(t){return t.wellbeing;}).forEach(function(t){t.done=true;if(changed)t.validated=false;});announce(&#x27;Bienestar registrado en esta demo: &#x27;+b.dataset.value+&#x27;.&#x27;);}
+    if(a===&#x27;read-material&#x27;){state.reading=b.dataset.id;}
+    if(a===&#x27;close-reading&#x27;){state.reading=null;}
+    if(a===&#x27;complete-material&#x27;){const task=current().tasks.find(function(t){return t.material===b.dataset.id;});if(task){if(!task.done)task.validated=false;task.done=true;announce(&#x27;Contenido registrado. Ahora se puede revisar en Seguimiento POSUCI.&#x27;);}}
+    if(a===&#x27;review-message&#x27;){current().reviewed=true;announce(&#x27;Consulta marcada como revisada en la demo.&#x27;);}
+    if(a===&#x27;mobile-team&#x27;){state.mobile=&#x27;team&#x27;;}
+    if(a===&#x27;portal-calendar&#x27;){state.mobile=&#x27;calendar&#x27;;}
+    if(a===&#x27;portal-education&#x27;){state.mobile=&#x27;education&#x27;;state.topic=&#x27;Todos&#x27;;}
+    if(a===&#x27;portal-plan&#x27;){state.mobile=&#x27;plan&#x27;;}
+    if(a===&#x27;portal-modules&#x27;){state.mobile=&#x27;modules&#x27;;}
+    if(a===&#x27;portal-topic&#x27;){state.mobile=&#x27;education&#x27;;state.topic=b.dataset.value;state.reading=null;}
+    if(a===&#x27;go-module&#x27;){const id=b.dataset.value;if([&#x27;home&#x27;,&#x27;calendar&#x27;,&#x27;plan&#x27;,&#x27;team&#x27;,&#x27;progress&#x27;,&#x27;education&#x27;].includes(id)){state.mobile=id;}else{state.mobile=&#x27;module&#x27;;state.module=id;}state.reading=null;}
+    if(a===&#x27;record-tab&#x27;){state.recordTab=b.dataset.value;}
+    if(a===&#x27;clinical-topic&#x27;){state.page=&#x27;library&#x27;;state.filter=b.dataset.value;}
+    if(a===&#x27;show-map&#x27;){state.view=&#x27;map&#x27;;}
+    if(a===&#x27;easy-mode&#x27;){state.easy=!state.easy;announce(&#x27;Modo fácil &#x27;+(state.easy?&#x27;activado&#x27;:&#x27;desactivado&#x27;)+&#x27; en esta demo.&#x27;);}
+    if(a===&#x27;validate&#x27;){const p=patients.find(function(item){return item.id===b.dataset.person;});p.tasks.find(function(t){return t.id===b.dataset.id;}).validated=true;announce(&#x27;Registro marcado como validado en esta demostración.&#x27;);}
+    render();
+  });
+  root.addEventListener(&#x27;change&#x27;,function(event){const target=event.target;
+    if(target.dataset.task){const task=current().tasks.find(function(t){return t.id===target.dataset.task;});if(task.wellbeing&amp;&amp;target.checked&amp;&amp;!current().mood){state.mobile=&#x27;home&#x27;;render();announce(&#x27;Elige cómo te sientes para completar este registro.&#x27;);const moodButton=root.querySelector(&#x27;[data-action=&quot;mood&quot;]&#x27;);if(moodButton)moodButton.focus();return;}if(task.done!==target.checked)task.validated=false;task.done=target.checked;if(task.wellbeing&amp;&amp;!task.done)current().mood=&#x27;&#x27;;announce((task.done?&#x27;Actividad registrada&#x27;:&#x27;Actividad pendiente&#x27;)+&#x27; · &#x27;+count(current())+&#x27; de &#x27;+current().tasks.length+&#x27;.&#x27;);render();const restored=root.querySelector(&#x27;[data-task=&quot;&#x27;+task.id+&#x27;&quot;]&#x27;);if(restored)restored.focus();}
+    if(target.id===&#x27;p-library-person&#x27;||target.id===&#x27;p-mobile-person&#x27;){state.person=target.value;state.reading=null;render();announce(&#x27;Paciente de ejemplo: &#x27;+current().name);}
+    if(target.id===&#x27;p-large-text&#x27;){state.largeText=target.checked;state.easy=target.checked;root.querySelector(&#x27;#p-patient&#x27;).classList.toggle(&#x27;x-easy&#x27;,state.easy);mobile.style.fontSize=state.largeText?&#x27;17px&#x27;:&#x27;&#x27;;announce(&#x27;Tamaño de lectura &#x27;+(state.largeText?&#x27;ampliado&#x27;:&#x27;normal&#x27;)+&#x27;.&#x27;);}
+    if(target.dataset.journey){const p=current();p.journey=p.journey||{};p.journey[target.dataset.journey]=target.checked;announce(&#x27;Paso actualizado en la ruta de ejemplo.&#x27;);}
+  });
+  root.addEventListener(&#x27;input&#x27;,function(event){if(event.target.name===&#x27;question&#x27;)current().draft=event.target.value;});
+  root.addEventListener(&#x27;submit&#x27;,function(event){event.preventDefault();const form=event.target;
+    if(form.id===&#x27;p-appointment-form&#x27;){const a=appointments.find(function(item){return item.id===state.editing;});a.date=form.elements.date.value;a.time=form.elements.time.value;state.editing=null;announce(&#x27;Cita actualizada solo en la demostración.&#x27;);}
+    if(form.id===&#x27;p-question-form&#x27;){const p=current();p.draft=form.elements.question.value.trim();if(!p.draft){announce(&#x27;Escribe una consulta para probar el recorrido.&#x27;);return;}p.message=p.draft;p.reviewed=false;announce(&#x27;Consulta guardada únicamente en la demo. No se ha enviado.&#x27;);}
+    if(form.id===&#x27;x-diary-form&#x27;){current().diary=form.elements.diary.value.trim();announce(&#x27;Nota guardada solo en el diario de esta demo.&#x27;);}
+    render();
+  });
+  function applyDesign(){root.style.setProperty(&#x27;--p-space&#x27;,design.compact?&#x27;16px&#x27;:&#x27;22px&#x27;);render();}
+  render();
+  if(globalThis.Tweak){const tweak=new Tweak({container:root,onChange:applyDesign});tweak.addToggle(design,&#x27;dailyFirst&#x27;,{label:&#x27;Mostrar Tu día antes de los puntos&#x27;});tweak.addToggle(design,&#x27;compact&#x27;,{label:&#x27;Menos espacio en el panel clínico&#x27;});}
+})();
+&lt;/script&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+  let lastPointerWasTouch = false;
+  let pinnedByTouch = false;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    pinnedByTouch = false;
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handlePointer = (event) =&gt; {
+    lastPointerWasTouch =
+      event.type === &quot;pointerdown&quot; &amp;&amp; event.pointerType === &quot;touch&quot;;
+  };
+  const handleTouchClick = (event) =&gt; {
+    const isTouch = event.pointerType === &quot;touch&quot; || lastPointerWasTouch;
+    lastPointerWasTouch = false;
+    if (!isTouch || event.detail === 0) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (
+      trigger == null ||
+      !trigger.isConnected ||
+      getContent(trigger).length === 0 ||
+      (pinnedByTouch &amp;&amp; activeTrigger === trigger)
+    ) {
+      if (pinnedByTouch) {
+        closeTooltip();
+      }
+      return;
+    }
+    openTooltip(trigger);
+    pinnedByTouch = activeTrigger === trigger;
+    window.setTimeout(() =&gt; {
+      if (activeTrigger === trigger &amp;&amp; !trigger.isConnected) {
+        closeTooltip(false);
+      }
+    }, 0);
+  };
+  const handleLeave = (event) =&gt; {
+    if (pinnedByTouch) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    lastPointerWasTouch = false;
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    lastPointerWasTouch = false;
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerdown&quot;, handlePointer);
+    document.removeEventListener(&quot;pointercancel&quot;, handlePointer);
+    document.removeEventListener(&quot;click&quot;, handleTouchClick);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerdown&quot;, handlePointer);
+  document.addEventListener(&quot;pointercancel&quot;, handlePointer);
+  document.addEventListener(&quot;click&quot;, handleTouchClick);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-tabs&quot;&gt;
+(() =&gt; {
+  const selector = &#x27;.nav[role=&quot;tablist&quot;] [role=&quot;tab&quot;]&#x27;;
+  const disabled = &#x27;:disabled,[aria-disabled=&quot;true&quot;]&#x27;;
+  const selectTab = (selected) =&gt; {
+    const panelId = selected.getAttribute(&quot;aria-controls&quot;);
+    for (const tab of selected.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;)) {
+      const active = tab === selected;
+      tab.classList.toggle(&quot;active&quot;, active);
+      tab.setAttribute(&quot;aria-selected&quot;, String(active));
+      const id = tab.getAttribute(&quot;aria-controls&quot;);
+      const panel = id &amp;&amp; document.getElementById(id);
+      if (panel != null) {
+        panel.hidden = id !== panelId;
+        if (!panel.hidden &amp;&amp; selected.id) {
+          panel.setAttribute(&quot;aria-labelledby&quot;, selected.id);
+        }
+      }
+    }
+  };
+  const interact = (event) =&gt; {
+    const tab = event.target?.closest?.(selector);
+    if (event.defaultPrevented || tab == null || tab.matches(disabled)) {
+      return;
+    }
+    if (event.type === &quot;click&quot;) {
+      selectTab(tab);
+      return;
+    }
+    const tabs = Array.from(
+      tab.closest(&#x27;[role=&quot;tablist&quot;]&#x27;).querySelectorAll(&#x27;[role=&quot;tab&quot;]&#x27;),
+    ).filter((candidate) =&gt; !candidate.matches(disabled));
+    const current = tabs.indexOf(tab);
+    let next;
+    if (event.key === &quot;ArrowRight&quot; || event.key === &quot;ArrowDown&quot;) {
+      next = (current + 1) % tabs.length;
+    } else if (event.key === &quot;ArrowLeft&quot; || event.key === &quot;ArrowUp&quot;) {
+      next = (current + tabs.length - 1) % tabs.length;
+    } else if (event.key === &quot;Home&quot;) {
+      next = 0;
+    } else if (event.key === &quot;End&quot;) {
+      next = tabs.length - 1;
+    } else {
+      return;
+    }
+    event.preventDefault();
+    tabs[next].focus();
+    selectTab(tabs[next]);
+  };
+
+  for (const list of document.querySelectorAll(&#x27;.nav[role=&quot;tablist&quot;]&#x27;)) {
+    const selected =
+      list.querySelector(&#x27;[role=&quot;tab&quot;][aria-selected=&quot;true&quot;]&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;].active&#x27;) ??
+      list.querySelector(&#x27;[role=&quot;tab&quot;]&#x27;);
+    if (selected != null) {
+      selectTab(selected);
+    }
+  }
+  document.addEventListener(&quot;click&quot;, interact);
+  document.addEventListener(&quot;keydown&quot;, interact);
+  window.addEventListener(&quot;pagehide&quot;, () =&gt; {
+    document.removeEventListener(&quot;click&quot;, interact);
+    document.removeEventListener(&quot;keydown&quot;, interact);
+  }, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+&lt;/body&gt;&lt;/html&gt;"></iframe></body></html>

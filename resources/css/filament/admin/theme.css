@@ -1,0 +1,168 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+@import '@fontsource/montserrat/latin-400.css';
+@import '@fontsource/montserrat/latin-600.css';
+@import '@fontsource/montserrat/latin-700.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+:root {
+    --agora-navy: #17375e;
+    --agora-navy-deep: #0d2340;
+    --agora-silver: #b8bec7;
+    --agora-silver-soft: #dfe3e8;
+    --agora-steel: #5b7fb0;
+    --agora-surface: #f4f6f9;
+}
+
+html {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.fi-body {
+    background:
+        radial-gradient(circle at 100% 0%, rgb(91 127 176 / 8%), transparent 26rem),
+        var(--agora-surface);
+}
+
+/* ---- Navegación superior (reemplaza al sidebar) ---- */
+.fi-topbar {
+    background: linear-gradient(90deg, var(--agora-navy-deep), var(--agora-navy));
+    border-bottom: 3px solid var(--agora-silver);
+}
+
+.fi-topbar nav,
+.fi-topbar .fi-topbar-item-label,
+.fi-topbar .fi-icon,
+.fi-topbar .fi-dropdown-trigger,
+.fi-topbar a,
+.fi-topbar button {
+    color: rgb(255 255 255 / 88%);
+}
+
+/* El logo es gris: lo volvemos blanco sobre la barra azul */
+.fi-topbar .fi-logo {
+    filter: brightness(0) invert(1);
+    max-height: 2.5rem;
+    object-fit: contain;
+}
+
+.agora-center-home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: 0.65rem;
+    border: 1px solid rgb(255 255 255 / 18%);
+    border-radius: 0.55rem;
+    background: rgb(255 255 255 / 8%);
+    padding: 0.42rem 0.7rem;
+    color: white;
+    font-size: 0.86rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.agora-center-home-link:hover {
+    border-color: rgb(255 255 255 / 40%);
+    background: rgb(255 255 255 / 16%);
+}
+
+.fi-topbar .fi-topbar-item.fi-active > a,
+.fi-topbar .fi-topbar-item.fi-active > button {
+    background: rgb(255 255 255 / 12%);
+    box-shadow: inset 0 -3px 0 var(--agora-silver);
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.fi-topbar .fi-topbar-item > a:hover,
+.fi-topbar .fi-topbar-item > button:hover {
+    background: rgb(255 255 255 / 8%);
+    border-radius: 0.5rem;
+}
+
+/* Contraste consistente: íconos claros en la barra y azules en menús blancos. */
+.fi-topbar .fi-topbar-item-icon,
+.fi-topbar .fi-topbar-group-toggle-icon {
+    color: #dbeafe !important;
+}
+
+.fi-dropdown-list-item > .fi-icon {
+    color: #17375e !important;
+}
+
+.fi-dropdown-list-item.fi-color-primary > .fi-icon,
+.fi-dropdown-list-item.fi-selected > .fi-icon {
+    color: #1d4ed8 !important;
+}
+
+/* Mantiene la navegación principal compacta en una sola línea. */
+@media (min-width: 1024px) {
+    .fi-topbar-nav-groups {
+        flex-wrap: nowrap;
+        gap: 0.25rem;
+        margin-inline: 0.5rem;
+    }
+
+    .fi-topbar-item-btn {
+        gap: 0.4rem;
+        padding: 0.55rem 0.65rem;
+        white-space: nowrap;
+    }
+
+    .fi-topbar-item-label {
+        font-size: 0.82rem;
+    }
+}
+
+.agora-centers-menu-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border: 1px solid rgb(255 255 255 / 22%);
+    border-radius: 0.65rem;
+    background: rgb(255 255 255 / 10%);
+    padding: 0.55rem 0.8rem;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.agora-centers-menu-trigger:hover {
+    border-color: rgb(255 255 255 / 40%);
+    background: rgb(255 255 255 / 18%);
+}
+
+/* ---- Login / pantalla simple ---- */
+.fi-simple-layout {
+    background:
+        linear-gradient(135deg, rgb(13 35 64 / 96%), rgb(23 55 94 / 90%)),
+        url('/img/LOGO2.jpg') center / 38rem no-repeat;
+}
+
+.fi-simple-main {
+    border-top: 4px solid var(--agora-silver);
+    box-shadow: 0 24px 70px rgb(0 0 0 / 28%);
+}
+
+.fi-simple-layout .fi-logo {
+    filter: brightness(0) invert(1);
+    max-width: 18rem;
+    object-fit: contain;
+}
+
+/* ---- Superficies ---- */
+.fi-section,
+.fi-ta-ctn,
+.fi-wi-stats-overview-stat {
+    border-color: rgb(23 55 94 / 10%);
+    box-shadow: 0 8px 24px rgb(13 35 64 / 6%);
+}
+
+.fi-header-heading {
+    color: var(--agora-navy-deep);
+    letter-spacing: -0.02em;
+}

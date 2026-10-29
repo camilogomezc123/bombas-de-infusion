@@ -1,0 +1,13 @@
+{
+    "name": "POSUCI 360 Conecta",
+    "short_name": "POSUCI 360",
+    "description": "Tu recuperación después de la UCI, día a día.",
+    "start_url": "/portal",
+    "scope": "/portal",
+    "display": "standalone",
+    "background_color": "#f5f7f8",
+    "theme_color": "#7c3aed",
+    "icons": [
+        { "src": "/icons/posuci-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    ]
+}
